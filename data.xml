@@ -38,4 +38,24 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 -1,-1,1,1       Reserved
 1,1,1.1,1.1     Nodes (id 1000-1999)
   -->
+  <!-- Basic node -->
+  <node id="1001" version="1" changeset="1001" lat="1.001" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Different attributes -->
+  <node id="1002" version="2" changeset="1002" lat="1.002" lon="1.001" user="user_1002" uid="1002" timestamp="2012-10-01T00:00:01Z"/>
+  <!-- Anonymous -->
+  <node id="1003" version="1" changeset="1003" lat="1.003" lon="1.001" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Tagged node -->
+  <node id="1004" version="1" changeset="1001" lat="1.004" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="1"/>
+  </node>
+  <!-- Multi-tagged node -->
+  <node id="1005" version="1" changeset="1001" lat="1.005" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="1"/>
+    <tag k="b" v="2"/>
+  </node>
+  <!-- Different tag order -->
+  <node id="1006" version="1" changeset="1001" lat="1.006" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z">
+    <tag k="b" v="2"/>
+    <tag k="a" v="1"/>
+  </node>
 </osm>
