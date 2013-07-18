@@ -20,7 +20,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/osm""").count.is(1)))
       .exec(
         http("text/*")
@@ -29,7 +31,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/osm""").count.is(1)))
       .exec(
         http("text/xml")
@@ -38,7 +42,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/osm""").count.is(1)))
       .exec(
         http("invalid *")
@@ -47,7 +53,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/osm""").count.is(1)))
       .exec(
         http("invalid josm")
@@ -56,7 +64,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/osm""").count.is(1)))
     }
     .group("Overall tests") {
@@ -66,7 +76,9 @@ object NodeScenario {
           .check(
             status.is(200),
             header("Content-Type").is("text/xml; charset=utf-8"),
-            header("Cache-Control").is("max-age=0, private, must-revalidate"),
+            headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
+            headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
             xpath("""/*""").count.is(1),
             xpath("""/osm/@version""").is("0.6"),
             xpath("""/osm/@copyright""").is("OpenStreetMap and contributors"),
