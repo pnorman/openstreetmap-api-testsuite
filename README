@@ -1,0 +1,28 @@
+# openstreetmap-api-testsuite #
+
+Integration tests for your OSM API code
+
+## About ##
+This test suite consists of a series of tests to validate that your OSM API implementation produces the correct results.
+
+There are two parts to the test suite, an OSM XML file to be loaded into the API to be tested, and a gatling test file that specifies the tests.
+
+## Requirements ##
+
+* [gatling](http://gatling-tool.org/) 2.0.0-M3a or later
+
+* The API you want to test, as well as whatever it requires to load the data.
+
+## Usage ##
+
+In ``gatling-charts-highcharts-2.0.0-M3a\user-files\simulations\`` clone the git repo with
+
+```
+git clone https://github.com/pnorman/openstreetmap-api-testsuite
+```
+
+Load data.xml into the API of your choice
+
+Edit the base URL in the ??? file.
+
+Run gatling
