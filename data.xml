@@ -27,6 +27,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
--->
 
+================= WARNING =================
+This file is designed to be edited by hand!
+Using a .osm editor may screw it up!
+===========================================
+
+Specific bounding boxes are reserved for specific sets of tests
+bbox formats are in left,bottom,top,right
+
+-1,-1,1,1       Reserved
+1,1,1.1,1.1     Nodes
+-->
 </osm>
