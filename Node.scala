@@ -11,6 +11,8 @@ import io.gatling.http.Predef._
 import bootstrap._
 
 object NodeScenario {
+  def stripZero = (s:Option[String]) => s.map(_.replaceAll("0+$",""))
+
   val nodeScn = scenario("Node tests")
     .group("Header tests") {
       exec(
@@ -106,8 +108,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1001"]/@*""").count.is(9),
             xpath("""/osm/node[@id="1001"]/@version""").is("1"),
             xpath("""/osm/node[@id="1001"]/@changeset""").is("1001"),
-            xpath("""/osm/node[@id="1001"]/@lat""").is("1.001"),
-            xpath("""/osm/node[@id="1001"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1001"]/@lat""").transform(s => stripZero(s)).is("1.001"),
+            xpath("""/osm/node[@id="1001"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1001"]/@user""").is("user_1001"),
             xpath("""/osm/node[@id="1001"]/@uid""").is("1001"),
             xpath("""/osm/node[@id="1001"]/@visible""").is("true")
@@ -122,8 +124,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1002"]/@*""").count.is(9),
             xpath("""/osm/node[@id="1002"]/@version""").is("2"),
             xpath("""/osm/node[@id="1002"]/@changeset""").is("1002"),
-            xpath("""/osm/node[@id="1002"]/@lat""").is("1.002"),
-            xpath("""/osm/node[@id="1002"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1002"]/@lat""").transform(s => stripZero(s)).is("1.002"),
+            xpath("""/osm/node[@id="1002"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1002"]/@user""").is("user_1002"),
             xpath("""/osm/node[@id="1002"]/@uid""").is("1002"),
             xpath("""/osm/node[@id="1002"]/@visible""").is("true")
@@ -138,8 +140,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1003"]/@*""").count.is(7),
             xpath("""/osm/node[@id="1003"]/@version""").is("1"),
             xpath("""/osm/node[@id="1003"]/@changeset""").is("1003"),
-            xpath("""/osm/node[@id="1003"]/@lat""").is("1.003"),
-            xpath("""/osm/node[@id="1003"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1003"]/@lat""").transform(s => stripZero(s)).is("1.003"),
+            xpath("""/osm/node[@id="1003"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1003"]/@visible""").is("true")
           ))
       .exec(
@@ -152,8 +154,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1004"]/@*""").count.is(9),
             xpath("""/osm/node[@id="1004"]/@version""").is("1"),
             xpath("""/osm/node[@id="1004"]/@changeset""").is("1001"),
-            xpath("""/osm/node[@id="1004"]/@lat""").is("1.004"),
-            xpath("""/osm/node[@id="1004"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1004"]/@lat""").transform(s => stripZero(s)).is("1.004"),
+            xpath("""/osm/node[@id="1004"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1004"]/@user""").is("user_1001"),
             xpath("""/osm/node[@id="1004"]/@uid""").is("1001"),
             xpath("""/osm/node[@id="1004"]/@visible""").is("true"),
@@ -170,8 +172,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1005"]/@*""").count.is(9),
             xpath("""/osm/node[@id="1005"]/@version""").is("1"),
             xpath("""/osm/node[@id="1005"]/@changeset""").is("1001"),
-            xpath("""/osm/node[@id="1005"]/@lat""").is("1.005"),
-            xpath("""/osm/node[@id="1005"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1005"]/@lat""").transform(s => stripZero(s)).is("1.005"),
+            xpath("""/osm/node[@id="1005"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1005"]/@user""").is("user_1001"),
             xpath("""/osm/node[@id="1005"]/@uid""").is("1001"),
             xpath("""/osm/node[@id="1005"]/@visible""").is("true"),
@@ -189,8 +191,8 @@ object NodeScenario {
             xpath("""/osm/node[@id="1006"]/@*""").count.is(9),
             xpath("""/osm/node[@id="1006"]/@version""").is("1"),
             xpath("""/osm/node[@id="1006"]/@changeset""").is("1001"),
-            xpath("""/osm/node[@id="1006"]/@lat""").is("1.006"),
-            xpath("""/osm/node[@id="1006"]/@lon""").is("1.001"),
+            xpath("""/osm/node[@id="1006"]/@lat""").transform(s => stripZero(s)).is("1.006"),
+            xpath("""/osm/node[@id="1006"]/@lon""").transform(s => stripZero(s)).is("1.001"),
             xpath("""/osm/node[@id="1006"]/@user""").is("user_1001"),
             xpath("""/osm/node[@id="1006"]/@uid""").is("1001"),
             xpath("""/osm/node[@id="1006"]/@visible""").is("true"),
