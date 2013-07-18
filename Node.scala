@@ -32,7 +32,7 @@ object NodeScenario {
             header("Cache-Control").is("max-age=0, private, must-revalidate"),
             xpath("""/osm""").count.is(1)))
       .exec(
-        http("text/*")
+        http("text/xml")
           .get("/node/1001")
           .header("Accept","text/xml")
           .check(
