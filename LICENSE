@@ -1,13 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<osm version="0.6" generator="hand" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
-<!--
-This file is part of openstreetmap-api-testsuite
-
-Despite the attributes of the <osm/> element, this file is released under
-a MIT license, but as it is part of a test suite it is expected that the
-<osm/> values will be used by the API handling this data. In fact, the
-tests expect it.
-
 Copyright (c) 2013 Paul Norman
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +17,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
--->
-
-</osm>
