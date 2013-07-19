@@ -26,7 +26,7 @@ class ApiSimulation extends Simulation {
     .acceptHeader("text/xml")
     .disableFollowRedirect
 
-  setUp(NodeScenario.nodeScn.inject(atOnce(1 users)))
+  setUp(NodeScenario.nodeScn.inject(atOnce(1 users)), NodeDiffScenario.nodeDiffScn.inject(atOnce(1 users)))
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
 }

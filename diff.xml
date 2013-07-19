@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osmChange version="0.6" generator="hand">
+  <!--
+This file is part of openstreetmap-api-testsuite
+
+Copyright (c) 2013 Paul Norman
+
+This file is released under a MIT license, but as it is part of a test suite
+it is expected that the <osm/> attribute values for the standard ODbL data
+will be emitted by the API handling this data. In fact, the tests expect it.
+
+================= WARNING =================
+This file is designed to be edited by hand!
+Using a .osm editor may screw it up!
+===========================================
+
+See data.xml for more information on this file
+  -->
+  <!-- Nodes and diff processing -->
+  <!-- Deleted nodes -->
+  <delete>
+    <node id="2001" version="2" changeset="2101" lat="1.001" lon="1.101" user="user_2101" uid="2101" timestamp="2012-10-02T00:00:00Z"/>
+    <node id="2003" version="2" changeset="2103" lat="1.001" lon="1.103" user="user_2103" uid="2103" timestamp="2012-10-02T00:00:00Z"/>
+  </delete>
+  <!-- Deleted and created nodes -->
+  <delete>
+    <node id="2002" version="2" changeset="2102" lat="1.001" lon="1.102" user="user_2102" uid="2102" timestamp="2012-11-02T00:00:00Z"/>
+    <node id="2004" version="2" changeset="2104" lat="1.001" lon="1.104" user="user_2104" uid="2104" timestamp="2012-11-02T00:00:00Z"/>
+  </delete>
+  <modify>
+    <node id="2002" version="3" changeset="2202" lat="1.001" lon="1.102" user="user_2202" uid="2202" timestamp="2012-11-03T00:00:00Z"/>
+    <node id="2004" version="3" changeset="2204" lat="1.001" lon="1.104" user="user_2204" uid="2204" timestamp="2012-11-03T00:00:00Z"/>
+  </modify>
+  <!-- Diff-created nodes -->
+  <create>
+    <node id="2005" version="1" changeset="2005" lat="1.001" lon="1.105" user="user_2005" uid="2005" timestamp="2012-10-01T00:00:00Z"/>
+  </create>
+  <create>
+    <node id="2006" version="1" changeset="2006" lat="1.001" lon="1.106" user="user_2006" uid="2006" timestamp="2012-10-01T00:00:00Z">
+      <tag k="a" v="2006"/>
+    </node>
+  </create>
+  <!-- Moved nodes -->
+  <modify>
+    <node id="2007" version="2" changeset="2107" lat="1.001" lon="1.1071" user="user_2107" uid="2107" timestamp="2012-10-02T00:00:00Z"/>
+    <node id="2008" version="2" changeset="2108" lat="1.001" lon="1.1081" user="user_2108" uid="2108" timestamp="2012-10-02T00:00:00Z">
+      <tag k="a" v="2008"/>
+    </node>
+  </modify>
+</osmChange>

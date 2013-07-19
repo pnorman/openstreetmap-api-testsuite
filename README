@@ -21,8 +21,10 @@ In ``gatling-charts-highcharts-2.0.0-M3a\user-files\simulations\`` clone the git
 git clone https://github.com/pnorman/openstreetmap-api-testsuite
 ```
 
-Load data.xml into the API of your choice
+Load data.xml into the database + API of your choice
 
-Edit the base URL in the ??? file.
+Apply diff.xml to the database
+
+Edit the base URL in the OpenStreetMapApiTest.scala file.
 
 Run gatling

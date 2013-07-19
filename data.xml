@@ -19,7 +19,9 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 
 -1,-1,1,1       Reserved
 1,1,1.1,1.1     Nodes (id 1000-1999)
+1.1,1,1.2,1.1   Nodes and diff processing (id 2000-2999)
   -->
+  <!-- Nodes -->
   <!-- Basic node -->
   <node id="1001" version="1" changeset="1001" lat="1.001" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z"/>
   <!-- Different attributes -->
@@ -39,5 +41,25 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <node id="1006" version="1" changeset="1001" lat="1.006" lon="1.001" user="user_1001" uid="1001" timestamp="2012-10-01T00:00:00Z">
     <tag k="b" v="2"/>
     <tag k="a" v="1"/>
+  </node>
+  <!-- Nodes and diff processing -->
+  <!-- Deleted node -->
+  <node id="2001" version="1" changeset="2001" lat="1.001" lon="1.101" user="user_2001" uid="2001" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Deleted and created node -->
+  <node id="2002" version="1" changeset="2002" lat="1.001" lon="1.102" user="user_2002" uid="2002" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Tagged deleted node -->
+  <node id="2003" version="1" changeset="2003" lat="1.001" lon="1.103" user="user_2003" uid="2003" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="2003"/>
+  </node>
+  <!-- Tagged deleted and created node -->
+  <node id="2004" version="1" changeset="2004" lat="1.001" lon="1.104" user="user_2004" uid="2004" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="2004"/>
+  </node>
+  <!-- 2005-2006 are diff-created nodes -->
+  <!-- Moved nodes -->
+  <node id="2007" version="1" changeset="2007" lat="1.001" lon="1.107" user="user_2007" uid="2007" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Tagged deleted node -->
+  <node id="2008" version="1" changeset="2008" lat="1.001" lon="1.108" user="user_2008" uid="2008" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="2008"/>
   </node>
 </osm>
