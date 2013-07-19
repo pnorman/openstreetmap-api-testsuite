@@ -17,7 +17,7 @@ import assertions._
 class ApiSimulation extends Simulation {
   // Depending on how your API is deployed you may need to change the baseURL
   // For a rails port running as ``bundle exec rails server`` it should be
-  // http://localhost:3000/api/0.6
+  // http://localhost:3000/api
   private val ApiBase = "http://localhost:3000/api"
 
   // Do not edit below here
