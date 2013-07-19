@@ -96,8 +96,8 @@ object NodeScenario {
             http("missing node")
             .get("/node/1000")
             .check(
-              sha1.is("b858cb282617fb0956d960215c8e84d1ccf909c6"),
-              header("Content-Length").is("1"),
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
               header("Cache-Control").is("no-cache"),
               status.is(404)
             ))
