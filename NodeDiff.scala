@@ -17,15 +17,6 @@ object NodeDiffScenario {
     .group("Node diff tests") {
       group("Status tests") {
         exec(
-          http("deleted")
-            .get("/node/2001")
-            .check(
-              status.is(410),
-              header("Cache-Control").is("no-cache"),
-              header("Content-Length").is("0"),
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
-            ))
-        .exec(
           http("recreated")
             .get("/node/2002")
             .check(
@@ -41,15 +32,6 @@ object NodeDiffScenario {
               xpath("""/osm/*""").count.is(1), 
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
-            ))
-        .exec(
-          http("deleted tagged")
-            .get("/node/2003")
-            .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
-              header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
-              status.is(410)
             ))
         .exec(
           http("recreated as untagged")
@@ -143,5 +125,25 @@ object NodeDiffScenario {
             ))
 
       }
+    }
+    .group("Node history tests") {
+        exec(
+          http("deleted")
+            .get("/node/2001")
+            .check(
+              status.is(410),
+              header("Cache-Control").is("no-cache"),
+              header("Content-Length").is("0"),
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
+            ))
+        .exec(
+          http("deleted tagged")
+            .get("/node/2003")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(410)
+            ))
     }
 }
