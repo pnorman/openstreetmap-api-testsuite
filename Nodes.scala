@@ -4,21 +4,23 @@ This file is part of openstreetmap-api-testsuite
 
 Copyright (c) 2013 Paul Norman, released under the MIT license.
 
-Defines various test cases for nodes
+Defines various test cases for nodes?nodes=...
+
+Note: This test re-uses the XML from the /node/# tests
 */
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import bootstrap._
 
-object NodeScenario {
+object NodesScenario {
   def stripZero = (s:Option[String]) => s.map(_.replaceAll("0+$",""))
 
-  val nodeScn = scenario("Node tests")
-    .group("Node tests") {
-      group("Header accept header tests") {
+  val nodesScn = scenario("Nodes tests")
+    .group("Nodes tests") {
+      group("Single-node accept header tests") {
         exec(
           http("*/*")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
@@ -30,7 +32,7 @@ object NodeScenario {
             ))
         .exec(
           http("text/*")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
@@ -42,7 +44,7 @@ object NodeScenario {
             ))
         .exec(
           http("text/xml")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
@@ -54,7 +56,7 @@ object NodeScenario {
             ))
         .exec(
           http("invalid *")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
@@ -65,7 +67,7 @@ object NodeScenario {
               status.is(200)))
         .exec(
           http("invalid josm")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
@@ -76,25 +78,19 @@ object NodeScenario {
               status.is(200)
             ))
       }
-      .group("Overall tests") {
+      .group("Multi-node http response tests") {
         exec(
-          http("osm xml attributes")
-            .get("/node/1001")
+            http("1 missing 1 existing")
+            .get("/nodes?nodes=1000,1001")
             .check(
-              xpath("""/osm/@version""").is("0.6"),
-              xpath("""/osm/@copyright""").is("OpenStreetMap and contributors"),
-              xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
-              xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
-              xpath("""/*""").count.is(1),
-              header("Content-Type").is("text/xml; charset=utf-8"),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
-              status.is(200)
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(404)
             ))
         .exec(
-            http("missing node")
-            .get("/node/1000")
+            http("1 existing 1 missing")
+            .get("/nodes?nodes=1001,1000")
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
@@ -102,10 +98,10 @@ object NodeScenario {
               status.is(404)
             ))
       }
-      .group("Content tests") {
+      .group("Single-node content tests") {
         exec(
           http("attributes")
-            .get("/node/1001")
+            .get("/nodes?nodes=1001")
             .check(
               xpath("""/osm/node[@id="1001"]/@version""").is("1"),
               xpath("""/osm/node[@id="1001"]/@changeset""").is("1001"),
@@ -116,12 +112,12 @@ object NodeScenario {
               xpath("""/osm/node[@id="1001"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1001"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              xpath("""/osm/*""").count.is(1),
               status.is(200)
             ))
         .exec(
           http("different attributes")
-            .get("/node/1002")
+            .get("/nodes?nodes=1002")
             .check(
               xpath("""/osm/node[@id="1002"]/@version""").is("2"),
               xpath("""/osm/node[@id="1002"]/@changeset""").is("1002"),
@@ -132,44 +128,12 @@ object NodeScenario {
               xpath("""/osm/node[@id="1002"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1002"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
-              status.is(200)
-            ))
-        .exec(
-          http("anonymous user")
-            .get("/node/1003")
-            .check(
-              xpath("""/osm/node[@id="1003"]/@version""").is("1"),
-              xpath("""/osm/node[@id="1003"]/@changeset""").is("1003"),
-              xpath("""/osm/node[@id="1003"]/@lat""").transform(s => stripZero(s)).is("1.003"),
-              xpath("""/osm/node[@id="1003"]/@lon""").transform(s => stripZero(s)).is("1.001"),
-              xpath("""/osm/node[@id="1003"]/@visible""").is("true"),
-              xpath("""/osm/node[@id="1003"]/@*""").count.is(7),
-              xpath("""/osm/node[@id="1003"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
-              status.is(200)
-            ))
-        .exec(
-          http("one tag")
-            .get("/node/1004")
-            .check(
-              xpath("""/osm/node[@id="1004"]/tag[@k="a"]/@v""").is("1"),
-              xpath("""/osm/node[@id="1004"]/*""").count.is(1),
-              xpath("""/osm/node[@id="1004"]/@version""").is("1"),
-              xpath("""/osm/node[@id="1004"]/@changeset""").is("1001"),
-              xpath("""/osm/node[@id="1004"]/@lat""").transform(s => stripZero(s)).is("1.004"),
-              xpath("""/osm/node[@id="1004"]/@lon""").transform(s => stripZero(s)).is("1.001"),
-              xpath("""/osm/node[@id="1004"]/@user""").is("user_1001"),
-              xpath("""/osm/node[@id="1004"]/@uid""").is("1001"),
-              xpath("""/osm/node[@id="1004"]/@visible""").is("true"),
-              xpath("""/osm/node[@id="1004"]/@*""").count.is(9),
-              xpath("""/osm/node[@id="1004"]""").count.is(1),
               xpath("""/osm/*""").count.is(1),
               status.is(200)
             ))
         .exec(
           http("multiple tags")
-            .get("/node/1005")
+            .get("/nodes?nodes=1005")
             .check(
               xpath("""/osm/node[@id="1005"]/tag[@k="a"]/@v""").is("1"),
               xpath("""/osm/node[@id="1005"]/tag[@k="b"]/@v""").is("2"),
@@ -187,8 +151,49 @@ object NodeScenario {
               status.is(200)
             ))
         .exec(
-          http("different tag order")
-            .get("/node/1006")
+          http("anonymous user")
+            .get("/nodes?nodes=1003")
+            .check(
+              xpath("""/osm/node[@id="1003"]/@version""").is("1"),
+              xpath("""/osm/node[@id="1003"]/@changeset""").is("1003"),
+              xpath("""/osm/node[@id="1003"]/@lat""").transform(s => stripZero(s)).is("1.003"),
+              xpath("""/osm/node[@id="1003"]/@lon""").transform(s => stripZero(s)).is("1.001"),
+              xpath("""/osm/node[@id="1003"]/@visible""").is("true"),
+              xpath("""/osm/node[@id="1003"]/@*""").count.is(7),
+              xpath("""/osm/node[@id="1003"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              status.is(200)
+            ))
+      }
+      .group("Multi-node content tests") {
+        exec(
+          http("multiple attributes")
+            .get("/nodes?nodes=1001,1002")
+            .check(
+              xpath("""/osm/node[@id="1002"]/@version""").is("2"),
+              xpath("""/osm/node[@id="1002"]/@changeset""").is("1002"),
+              xpath("""/osm/node[@id="1002"]/@lat""").transform(s => stripZero(s)).is("1.002"),
+              xpath("""/osm/node[@id="1002"]/@lon""").transform(s => stripZero(s)).is("1.001"),
+              xpath("""/osm/node[@id="1002"]/@user""").is("user_1002"),
+              xpath("""/osm/node[@id="1002"]/@uid""").is("1002"),
+              xpath("""/osm/node[@id="1002"]/@visible""").is("true"),
+              xpath("""/osm/node[@id="1002"]/@*""").count.is(9),
+              xpath("""/osm/node[@id="1002"]""").count.is(1),
+              xpath("""/osm/node[@id="1001"]/@version""").is("1"),
+              xpath("""/osm/node[@id="1001"]/@changeset""").is("1001"),
+              xpath("""/osm/node[@id="1001"]/@lat""").transform(s => stripZero(s)).is("1.001"),
+              xpath("""/osm/node[@id="1001"]/@lon""").transform(s => stripZero(s)).is("1.001"),
+              xpath("""/osm/node[@id="1001"]/@user""").is("user_1001"),
+              xpath("""/osm/node[@id="1001"]/@uid""").is("1001"),
+              xpath("""/osm/node[@id="1001"]/@visible""").is("true"),
+              xpath("""/osm/node[@id="1001"]/@*""").count.is(9),
+              xpath("""/osm/node[@id="1001"]""").count.is(1),
+              xpath("""/osm/*""").count.is(2),
+              status.is(200)
+            ))
+        .exec(
+          http("multiple tags")
+            .get("/nodes?nodes=1005,1006")
             .check(
               xpath("""/osm/node[@id="1006"]/tag[@k="a"]/@v""").is("1"),
               xpath("""/osm/node[@id="1006"]/tag[@k="b"]/@v""").is("2"),
@@ -202,7 +207,19 @@ object NodeScenario {
               xpath("""/osm/node[@id="1006"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1006"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              xpath("""/osm/node[@id="1005"]/tag[@k="a"]/@v""").is("1"),
+              xpath("""/osm/node[@id="1005"]/tag[@k="b"]/@v""").is("2"),
+              xpath("""/osm/node[@id="1005"]/*""").count.is(2),
+              xpath("""/osm/node[@id="1005"]/@version""").is("1"),
+              xpath("""/osm/node[@id="1005"]/@changeset""").is("1001"),
+              xpath("""/osm/node[@id="1005"]/@lat""").transform(s => stripZero(s)).is("1.005"),
+              xpath("""/osm/node[@id="1005"]/@lon""").transform(s => stripZero(s)).is("1.001"),
+              xpath("""/osm/node[@id="1005"]/@user""").is("user_1001"),
+              xpath("""/osm/node[@id="1005"]/@uid""").is("1001"),
+              xpath("""/osm/node[@id="1005"]/@visible""").is("true"),
+              xpath("""/osm/node[@id="1005"]/@*""").count.is(9),
+              xpath("""/osm/node[@id="1005"]""").count.is(1),
+              xpath("""/osm/*""").count.is(2),
               status.is(200)
             ))
       }
