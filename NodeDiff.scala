@@ -123,7 +123,6 @@ object NodeDiffScenario {
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
-
       }
     }
     .group("Node history tests") {
