@@ -342,19 +342,33 @@ object NodesScenarios {
           http("deleted")
             .get("/nodes?nodes=2001")
             .check(
-              status.is(410),
-              header("Cache-Control").is("no-cache"),
-              header("Content-Length").is("0"),
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
+              xpath("""/osm/node[@id="2001"]/*""").count.is(0),
+              xpath("""/osm/node[@id="2001"]/@version""").is("2"),
+              xpath("""/osm/node[@id="2001"]/@changeset""").is("2101"),
+              xpath("""/osm/node[@id="2001"]/@user""").is("user_2101"),
+              xpath("""/osm/node[@id="2001"]/@uid""").is("2101"),
+              xpath("""/osm/node[@id="2001"]/@visible""").is("false"),
+              xpath("""/osm/node[@id="2001"]/@*""").count.is(7),
+              xpath("""/osm/node[@id="2001"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              header("Content-Type").is("text/xml; charset=utf-8"),
+              status.is(200)
             ))
         .exec(
           http("deleted tagged")
             .get("/nodes?nodes=2003")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
-              header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
-              status.is(410)
+              xpath("""/osm/node[@id="2003"]/*""").count.is(0),
+              xpath("""/osm/node[@id="2003"]/@version""").is("2"),
+              xpath("""/osm/node[@id="2003"]/@changeset""").is("2103"),
+              xpath("""/osm/node[@id="2003"]/@user""").is("user_2103"),
+              xpath("""/osm/node[@id="2003"]/@uid""").is("2103"),
+              xpath("""/osm/node[@id="2003"]/@visible""").is("false"),
+              xpath("""/osm/node[@id="2003"]/@*""").count.is(7),
+              xpath("""/osm/node[@id="2003"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              header("Content-Type").is("text/xml; charset=utf-8"),
+              status.is(200)
             ))
     }
 }
