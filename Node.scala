@@ -325,10 +325,10 @@ object NodeScenarios {
           http("deleted")
             .get("/node/2001")
             .check(
-              status.is(410),
-              header("Cache-Control").is("no-cache"),
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
+              header("Cache-Control").is("no-cache"),
+              status.is(410)
             ))
         .exec(
           http("deleted tagged")
