@@ -14,7 +14,7 @@ object NodeScenarios {
   def stripZero = (s:Option[String]) => s.map(_.replaceAll("0+$",""))
 
   val nodeScn = scenario("Node tests")
-    .group("Node tests") {
+    .group("N tests") {
       group("Header accept header tests") {
         exec(
           http("*/*")
@@ -209,7 +209,7 @@ object NodeScenarios {
     }
 
   val nodeDiffScn = scenario("Node diff tests")
-    .group("Node diff tests") {
+    .group("N diff tests") {
       group("Status tests") {
         exec(
           http("recreated")
@@ -320,7 +320,7 @@ object NodeScenarios {
             ))
       }
     }
-    .group("Node history tests") {
+    .group("N history tests") {
         exec(
           http("deleted")
             .get("/node/2001")
