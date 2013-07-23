@@ -27,8 +27,8 @@ class ApiSimulation extends Simulation {
     .disableFollowRedirect
 
   setUp(
-    NodeScenario.nodeScn.inject(atOnce(1 users)),
-    NodeDiffScenario.nodeDiffScn.inject(nothingFor(1 seconds), atOnce(1 users)),
+    NodeScenarios.nodeScn.inject(atOnce(1 users)),
+    NodeScenarios.nodeDiffScn.inject(nothingFor(1 seconds), atOnce(1 users)),
     NodesScenario.nodesScn.inject(nothingFor(2 seconds), atOnce(1 users))
   )
   .protocols(httpProtocol)
