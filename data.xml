@@ -9,10 +9,12 @@ This file is released under a MIT license, but as it is part of a test suite
 it is expected that the <osm/> attribute values for the standard ODbL data
 will be emitted by the API handling this data. In fact, the tests expect it.
 
-================= WARNING =================
+================== WARNING ==================
 This file is designed to be edited by hand!
 Using a .osm editor may screw it up!
-===========================================
+
+This file is not node, way, relation ordered
+=============================================
 
 Specific bounding boxes are reserved for specific sets of tests
 bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
@@ -20,6 +22,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 -1,-1,1,1       Reserved
 1,1,1.1,1.1     Nodes (id 1000-1999)
 1.1,1,1.2,1.1   Nodes and diff processing (id 2000-2999)
+1.2,1,1.3,1.1   Ways (id 3000-3999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -62,4 +65,5 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <node id="2008" version="1" changeset="2008" lat="1.001" lon="1.108" user="user_2008" uid="2008" timestamp="2012-10-01T00:00:00Z">
     <tag k="a" v="2008"/>
   </node>
+  <!-- Ways -->
 </osm>
