@@ -30,7 +30,7 @@ class ApiSimulation extends Simulation {
     NodeScenarios.nodeScn.inject(atOnce(1 users)),
     NodeScenarios.nodeDiffScn.inject(nothingFor(1 seconds), atOnce(1 users)),
     NodesScenarios.nodesScn.inject(nothingFor(2 seconds), atOnce(1 users)),
-    NodesScenarios.nodesDiffScn.inject(nothingFor(2 seconds), atOnce(1 users))
+    NodesScenarios.nodesDiffScn.inject(nothingFor(3 seconds), atOnce(1 users))
   )
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
