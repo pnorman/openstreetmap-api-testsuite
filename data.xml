@@ -66,4 +66,35 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
     <tag k="a" v="2008"/>
   </node>
   <!-- Ways -->
+  <!-- A grid of nodes for testing -->
+  <node id="3011" version="1" changeset="3000" lat="1.001" lon="1.201" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3012" version="1" changeset="3000" lat="1.001" lon="1.202" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3013" version="1" changeset="3000" lat="1.001" lon="1.203" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3021" version="1" changeset="3000" lat="1.002" lon="1.201" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3022" version="1" changeset="3000" lat="1.002" lon="1.202" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3023" version="1" changeset="3000" lat="1.002" lon="1.203" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3031" version="1" changeset="3000" lat="1.003" lon="1.201" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3032" version="1" changeset="3000" lat="1.003" lon="1.202" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="3033" version="1" changeset="3000" lat="1.003" lon="1.203" user="way_nodes" uid="3000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Simple way -->
+  <way id="3001" version="1" changeset="3001" user="user_3001" uid="3001" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="3011"/>
+    <nd ref="3012"/>
+  </way>
+  <!-- Anonymous way -->
+  <way id="3002" version="1" changeset="3002" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="3011"/>
+    <nd ref="3012"/>
+  </way>
+  <!-- Tagged way -->
+  <way id="3003" version="1" changeset="3003" user="user_3003" uid="3003" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="3011"/>
+    <nd ref="3012"/>
+    <tag k="a" v="1"/>
+    <tag k="b" v="2"/>
+  </way>
+  <!-- One-node way -->
+  <way id="3004" version="1" changeset="3004" user="user_3004" uid="3004" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="3011"/>
+  </way>
 </osm>
