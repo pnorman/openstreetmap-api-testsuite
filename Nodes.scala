@@ -24,9 +24,7 @@ object NodesScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -36,9 +34,7 @@ object NodesScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -48,9 +44,7 @@ object NodesScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -60,9 +54,7 @@ object NodesScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)))
         .exec(
@@ -71,9 +63,7 @@ object NodesScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))

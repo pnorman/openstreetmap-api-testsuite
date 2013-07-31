@@ -36,3 +36,9 @@ class ApiSimulation extends Simulation {
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
 }
+
+object globalChecks {
+  def headerCache = headerRegex("Cache-Control",
+    """(max-age=0, ?(private, ?must-revalidate)|(must-revalidate, ?private))|(private, ?(max-age=0, ?must-revalidate)|(must-revalidate, ?max-age=0))|(must-revalidate, ?(private, ?max-age=0)|(max-age=0, ?private))|(no-cache)""").exists
+}
+

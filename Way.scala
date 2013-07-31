@@ -20,9 +20,7 @@ object WayScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -32,9 +30,7 @@ object WayScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -44,9 +40,7 @@ object WayScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -56,9 +50,7 @@ object WayScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)))
         .exec(
@@ -67,9 +59,7 @@ object WayScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -84,10 +74,8 @@ object WayScenarios {
               xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
               xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
               xpath("""/*""").count.is(1),
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
-              headerRegex("Cache-Control","""(^|(, *))max-age=0($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))private($|(, *))""").exists,
-              headerRegex("Cache-Control","""(^|(, *))must-revalidate($|(, *))""").exists,
               status.is(200)
             ))
         .exec(
@@ -251,7 +239,7 @@ object WayScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerCache,
               status.is(410)
             ))
         .exec(
@@ -260,7 +248,7 @@ object WayScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerCache,
               status.is(410)
             ))
     }

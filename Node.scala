@@ -12,8 +12,7 @@ import bootstrap._
 
 object NodeScenarios {
   def stripZero = (s:Option[String]) => s.map(_.replaceAll("0+$",""))
-  def headerCache = headerRegex("Cache-Control",
-    """(max-age=0, ?(private, ?must-revalidate)|(must-revalidate, ?private))|(private, ?(max-age=0, ?must-revalidate)|(must-revalidate, ?max-age=0))|(must-revalidate, ?(private, ?max-age=0)|(max-age=0, ?private))|(no-cache)""").exists
+     
   val nodeScn = scenario("Node tests")
     .group("N tests") {
       group("Header accept header tests") {
@@ -23,7 +22,7 @@ object NodeScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerCache,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -33,7 +32,7 @@ object NodeScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerCache,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -43,7 +42,7 @@ object NodeScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              headerCache,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -53,7 +52,7 @@ object NodeScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              headerCache,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)))
         .exec(
@@ -62,7 +61,7 @@ object NodeScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              headerCache,
+              globalChecks.headerCache,
               header("Content-Type").is("text/xml; charset=utf-8"),
               status.is(200)
             ))
@@ -86,7 +85,7 @@ object NodeScenarios {
               xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
               xpath("""/*""").count.is(1),
               header("Content-Type").is("text/xml; charset=utf-8"),
-              headerCache,
+              globalChecks.headerCache,
               status.is(200)
             ))
         .exec(
@@ -324,7 +323,7 @@ object NodeScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerCache,
               status.is(410)
             ))
         .exec(
@@ -333,7 +332,7 @@ object NodeScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerCache,
               status.is(410)
             ))
     }
