@@ -67,6 +67,14 @@ object NodeScenarios {
               status.is(200)
             ))
       }
+      .group("Syntax tests") {
+        exec(
+          http("Invalid request")
+            .get("/node/asdf")
+            .check(
+              status.is(404)
+          ))
+      }
       .group("Overall tests") {
         exec(
           http("osm xml attributes")
