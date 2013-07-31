@@ -23,6 +23,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 1,1,1.1,1.1     Nodes (id 1000-1999)
 1.1,1,1.2,1.1   Nodes and diff processing (id 2000-2999)
 1.2,1,1.3,1.1   Ways (id 3000-3999)
+1.3,1,1.4,1.1   Ways diff processing (id 4000-4999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -97,4 +98,8 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <way id="3004" version="1" changeset="3004" user="user_3004" uid="3004" timestamp="2012-10-01T00:00:00Z">
     <nd ref="3011"/>
   </way>
+  <!-- Ways diff processing -->
+  <node id="4011" version="1" changeset="4000" lat="1.001" lon="1.301" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="4012" version="1" changeset="4000" lat="1.001" lon="1.302" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="4013" version="1" changeset="4000" lat="1.001" lon="1.303" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
 </osm>

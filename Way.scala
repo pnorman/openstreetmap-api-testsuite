@@ -13,7 +13,7 @@ import bootstrap._
 object WayScenarios {
   val wayScn = scenario("Way tests")
     .group("W tests") {
-      group("arghHeader accept header tests") {
+      group("Header accept tests") {
         exec(
           http("*/*")
             .get("/way/3001")
