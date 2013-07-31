@@ -168,4 +168,100 @@ object WayScenarios {
             )) 
       }
     }
+
+    val wayDiffScn = scenario("Way diff tests")
+    .group("W diff tests") {
+      group("Status tests") {
+        exec(
+          http("recreated")
+            .get("/way/4002")
+            .check(
+              xpath("""/osm/way[@id="4002"]/nd[2]/@ref""").is("4014"),
+              xpath("""/osm/way[@id="4002"]/nd[1]/@ref""").is("4013"),
+              xpath("""/osm/way[@id="4002"]/*""").count.is(2),
+              xpath("""/osm/way[@id="4002"]/@version""").is("3"),
+              xpath("""/osm/way[@id="4002"]/@changeset""").is("4202"),
+              xpath("""/osm/way[@id="4002"]/@user""").is("user_4202"),
+              xpath("""/osm/way[@id="4002"]/@uid""").is("4202"),
+              xpath("""/osm/way[@id="4002"]/@visible""").is("true"),
+              xpath("""/osm/way[@id="4002"]/@*""").count.is(7),
+              xpath("""/osm/way[@id="4002"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1), 
+              status.is(200)
+            ))
+        .exec(
+          http("recreated as untagged")
+            .get("/way/4004")
+            .check(
+              xpath("""/osm/way[@id="4004"]/nd[2]/@ref""").is("4014"),
+              xpath("""/osm/way[@id="4004"]/nd[1]/@ref""").is("4013"),
+              xpath("""/osm/way[@id="4004"]/*""").count.is(2),
+              xpath("""/osm/way[@id="4004"]/@version""").is("3"),
+              xpath("""/osm/way[@id="4004"]/@changeset""").is("4204"),
+              xpath("""/osm/way[@id="4004"]/@user""").is("user_4204"),
+              xpath("""/osm/way[@id="4004"]/@uid""").is("4204"),
+              xpath("""/osm/way[@id="4004"]/@visible""").is("true"),
+              xpath("""/osm/way[@id="4004"]/@*""").count.is(7),
+              xpath("""/osm/way[@id="4004"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1), 
+              status.is(200)
+            ))
+        .exec(
+          http("diff created")
+            .get("/way/4005")
+            .check(
+              xpath("""/osm/way[@id="4005"]/nd[2]/@ref""").is("4014"),
+              xpath("""/osm/way[@id="4005"]/nd[1]/@ref""").is("4013"),
+              xpath("""/osm/way[@id="4005"]/*""").count.is(2),
+              xpath("""/osm/way[@id="4005"]/@version""").is("1"),
+              xpath("""/osm/way[@id="4005"]/@changeset""").is("4205"),
+              xpath("""/osm/way[@id="4005"]/@user""").is("user_4205"),
+              xpath("""/osm/way[@id="4005"]/@uid""").is("4205"),
+              xpath("""/osm/way[@id="4005"]/@visible""").is("true"),
+              xpath("""/osm/way[@id="4005"]/@*""").count.is(7),
+              xpath("""/osm/way[@id="4005"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1), 
+              status.is(200)
+            ))
+        .exec(
+          http("diff created tagged")
+            .get("/way/4006")
+            .check(
+              xpath("""/osm/way[@id="4006"]/tag[@k="b"]/@v""").is("2"),
+              xpath("""/osm/way[@id="4006"]/tag[@k="a"]/@v""").is("1"),
+              xpath("""/osm/way[@id="4006"]/nd[2]/@ref""").is("4014"),
+              xpath("""/osm/way[@id="4006"]/nd[1]/@ref""").is("4013"),
+              xpath("""/osm/way[@id="4006"]/*""").count.is(4),
+              xpath("""/osm/way[@id="4006"]/@version""").is("1"),
+              xpath("""/osm/way[@id="4006"]/@changeset""").is("4206"),
+              xpath("""/osm/way[@id="4006"]/@user""").is("user_4206"),
+              xpath("""/osm/way[@id="4006"]/@uid""").is("4206"),
+              xpath("""/osm/way[@id="4006"]/@visible""").is("true"),
+              xpath("""/osm/way[@id="4006"]/@*""").count.is(7),
+              xpath("""/osm/way[@id="4006"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1), 
+              status.is(200)
+            ))
+      }
+    }
+    .group("W history tests") {
+        exec(
+          http("deleted")
+            .get("/way/4001")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(410)
+            ))
+        .exec(
+          http("deleted tagged")
+            .get("/way/4003")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(410)
+            ))
+    }
 }

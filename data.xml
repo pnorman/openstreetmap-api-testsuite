@@ -102,4 +102,30 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <node id="4011" version="1" changeset="4000" lat="1.001" lon="1.301" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
   <node id="4012" version="1" changeset="4000" lat="1.001" lon="1.302" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
   <node id="4013" version="1" changeset="4000" lat="1.001" lon="1.303" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="4014" version="1" changeset="4000" lat="1.001" lon="1.304" user="way_nodes4" uid="4000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Deleted way -->
+  <way id="4001" version="1" changeset="4001" user="user_4001" uid="4001" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="4011"/>
+    <nd ref="4012"/>
+  </way>
+  <!-- Deleted and created way -->
+  <way id="4002" version="1" changeset="4002" user="user_4002" uid="4002" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="4011"/>
+    <nd ref="4012"/>
+  </way>
+  <!-- Tagged deleted way -->
+  <way id="4003" version="1" changeset="4003" user="user_4003" uid="4003" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="4011"/>
+    <nd ref="4012"/>
+    <tag k="a" v="1"/>
+    <tag k="b" v="2"/>
+  </way>
+  <!-- Tagged deleted and created way -->
+  <way id="4004" version="1" changeset="4004" user="user_4004" uid="4004" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="4011"/>
+    <nd ref="4012"/>
+    <tag k="a" v="1"/>
+    <tag k="b" v="2"/>
+  </way>
+  <!-- 4005-4006 are diff-created way -->
 </osm>

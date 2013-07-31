@@ -47,4 +47,40 @@ See data.xml for more information on this file
       <tag k="a" v="2008"/>
     </node>
   </modify>
+  <!-- Ways diff processing -->
+  <!-- Deleted ways -->
+  <delete>
+    <way id="4001" version="2" changeset="4101" user="user_4101" uid="4101" timestamp="2012-10-02T00:00:00Z"/>
+    <way id="4003" version="2" changeset="4103" user="user_4103" uid="4103" timestamp="2012-10-02T00:00:00Z"/>
+  </delete>
+  <!-- Deleted and created ways -->
+  <delete>
+    <way id="4002" version="2" changeset="4102" user="user_4102" uid="4102" timestamp="2012-11-02T00:00:00Z"/>
+    <way id="4004" version="2" changeset="4104" user="user_4104" uid="4104" timestamp="2012-11-02T00:00:00Z"/>
+  </delete>
+  <modify>
+    <way id="4002" version="3" changeset="4202" user="user_4202" uid="4202" timestamp="2012-11-03T00:00:00Z">
+      <nd ref="4013"/>
+      <nd ref="4014"/>
+    </way>
+    <way id="4004" version="3" changeset="4204" user="user_4204" uid="4204" timestamp="2012-11-03T00:00:00Z">
+      <nd ref="4013"/>
+      <nd ref="4014"/>
+    </way>
+  </modify>
+  <!-- Diff-created ways -->
+  <create>
+    <way id="4005" version="1" changeset="4205" user="user_4205" uid="4205" timestamp="2012-11-03T00:00:00Z">
+      <nd ref="4013"/>
+      <nd ref="4014"/>
+    </way>
+  </create>
+  <create>
+    <way id="4006" version="1" changeset="4206" user="user_4206" uid="4206" timestamp="2012-11-03T00:00:00Z">
+      <nd ref="4013"/>
+      <nd ref="4014"/>
+      <tag k="a" v="1"/>
+      <tag k="b" v="2"/>
+    </way>
+  </create>
 </osmChange>
