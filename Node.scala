@@ -89,8 +89,27 @@ object NodeScenarios {
               status.is(200)
             ))
         .exec(
-            http("missing node")
+            http("existing HEAD")
+            .head("/node/1001")
+            .check(
+              header("Content-Length").not("0"),
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.headerCache,
+              status.is(200)
+            ))
+        .exec(
+            http("missing")
             .get("/node/1000")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(404)
+            ))
+        .exec(
+            http("missing HEAD")
+            .head("/node/1000")
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
@@ -206,7 +225,7 @@ object NodeScenarios {
 
   val nodeDiffScn = scenario("Node diff tests")
     .group("N diff tests") {
-      group("Status tests") {
+      group("Content tests") {
         exec(
           http("recreated")
             .get("/node/2002")
@@ -327,8 +346,26 @@ object NodeScenarios {
               status.is(410)
             ))
         .exec(
+          http("deleted HEAD")
+            .head("/node/2001")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
           http("deleted tagged")
             .get("/node/2003")
+            .check(
+              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
+          http("deleted tagged HEAD")
+            .head("/node/2003")
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
