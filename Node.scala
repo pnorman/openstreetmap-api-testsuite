@@ -76,7 +76,7 @@ object NodeScenarios {
       }
       .group("Overall tests") {
         exec(
-          http("osm xml attributes")
+          http("osm attributes")
             .get("/node/1001")
             .check(
               xpath("""/osm/@version""").is("0.6"),

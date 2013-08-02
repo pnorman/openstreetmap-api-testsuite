@@ -64,9 +64,17 @@ object WayScenarios {
               status.is(200)
             ))
       }
+      .group("Syntax tests") {
+        exec(
+          http("Invalid request")
+            .get("/way/asdf")
+            .check(
+              status.is(404)
+          ))
+      }
       .group("Overall tests") {
         exec(
-          http("osm xml attributes")
+          http("osm attributes")
             .get("/way/3001")
             .check(
               xpath("""/osm/@version""").is("0.6"),
@@ -79,10 +87,29 @@ object WayScenarios {
               status.is(200)
             ))
         .exec(
-            http("missing node")
+            http("existing HEAD")
+            .head("/way/3001")
+            .check(
+              header("Content-Length").not("0"),
+              globalChecks.isEmptyResponse,
+              globalChecks.contentType,
+              globalChecks.headerCache,
+              status.is(200)
+            ))
+        .exec(
+            http("missing")
             .get("/way/3000")
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              header("Content-Length").is("0"),
+              header("Cache-Control").is("no-cache"),
+              status.is(404)
+            ))
+        .exec(
+            http("missing HEAD")
+            .head("/way/3000")
+            .check(
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               header("Cache-Control").is("no-cache"),
               status.is(404)
@@ -243,8 +270,26 @@ object WayScenarios {
               status.is(410)
             ))
         .exec(
+          http("deleted HEAD")
+            .head("/way/4001")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
           http("deleted tagged")
             .get("/way/4003")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
+          http("deleted tagged HEAD")
+            .head("/way/4003")
             .check(
               globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
