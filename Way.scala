@@ -21,7 +21,7 @@ object WayScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -31,7 +31,7 @@ object WayScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -41,7 +41,7 @@ object WayScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -51,7 +51,7 @@ object WayScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)))
         .exec(
           http("invalid josm")
@@ -60,7 +60,7 @@ object WayScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
       }
@@ -75,7 +75,7 @@ object WayScenarios {
               xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
               xpath("""/*""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -237,7 +237,7 @@ object WayScenarios {
           http("deleted")
             .get("/way/4001")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)
@@ -246,7 +246,7 @@ object WayScenarios {
           http("deleted tagged")
             .get("/way/4003")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)

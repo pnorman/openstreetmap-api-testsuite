@@ -23,7 +23,7 @@ object NodeScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -33,7 +33,7 @@ object NodeScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -43,7 +43,7 @@ object NodeScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -53,7 +53,7 @@ object NodeScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)))
         .exec(
           http("invalid josm")
@@ -62,7 +62,7 @@ object NodeScenarios {
             .check(
               xpath("""/osm""").count.is(1),
               globalChecks.headerCache,
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
       }
@@ -84,7 +84,7 @@ object NodeScenarios {
               xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
               xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
               xpath("""/*""").count.is(1),
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               globalChecks.headerCache,
               status.is(200)
             ))
@@ -93,8 +93,8 @@ object NodeScenarios {
             .head("/node/1001")
             .check(
               header("Content-Length").not("0"),
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.isEmptyResponse,
+              globalChecks.contentType,
               globalChecks.headerCache,
               status.is(200)
             ))
@@ -102,7 +102,7 @@ object NodeScenarios {
             http("missing")
             .get("/node/1000")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               header("Cache-Control").is("no-cache"),
               status.is(404)
@@ -111,7 +111,7 @@ object NodeScenarios {
             http("missing HEAD")
             .head("/node/1000")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               header("Cache-Control").is("no-cache"),
               status.is(404)
@@ -240,7 +240,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2002"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2002"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -258,7 +258,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2004"]/*""").count.is(0), // untagged
               xpath("""/osm/node[@id="2004"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -275,7 +275,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2005"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2005"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -294,7 +294,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2006"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2006"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -311,7 +311,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2007"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2007"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
         .exec(
@@ -330,7 +330,7 @@ object NodeScenarios {
               xpath("""/osm/node[@id="2008"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2008"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              header("Content-Type").is("text/xml; charset=utf-8"),
+              globalChecks.contentType,
               status.is(200)
             ))
       }
@@ -340,7 +340,7 @@ object NodeScenarios {
           http("deleted")
             .get("/node/2001")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)
@@ -349,7 +349,7 @@ object NodeScenarios {
           http("deleted HEAD")
             .head("/node/2001")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)
@@ -358,7 +358,7 @@ object NodeScenarios {
           http("deleted tagged")
             .get("/node/2003")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)
@@ -367,7 +367,7 @@ object NodeScenarios {
           http("deleted tagged HEAD")
             .head("/node/2003")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerCache,
               status.is(410)
