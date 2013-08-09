@@ -110,7 +110,7 @@ object WayScenarios {
             http("missing")
             .get("/way/3000")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
               globalChecks.headerNoCache,
               status.is(404)
