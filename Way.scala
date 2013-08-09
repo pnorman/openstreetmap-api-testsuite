@@ -71,6 +71,14 @@ object WayScenarios {
             .check(
               status.is(404)
           ))
+        .exec(
+          http("Large ID")
+            .get("/way/20000000000000000000") //>2^64
+            .check(
+              globalChecks.headerCache,
+              status.not(500),
+              status.not(200)
+          ))
       }
       .group("Overall tests") {
         exec(
