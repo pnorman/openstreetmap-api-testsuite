@@ -71,7 +71,9 @@ object NodeScenarios {
           http("Invalid request")
             .get("/node/asdf")
             .check(
-              status.is(404)
+              globalChecks.headerCache,
+              status.not(500),
+              status.not(200)
           ))
         .exec(
           http("Large node ID")

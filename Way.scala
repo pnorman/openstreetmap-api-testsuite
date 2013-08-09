@@ -69,13 +69,15 @@ object WayScenarios {
           http("Invalid request")
             .get("/way/asdf")
             .check(
-              status.is(404)
+              globalChecks.headerCache,
+              status.not(500),
+              status.not(200)
           ))
         .exec(
           http("Large ID")
             .get("/way/20000000000000000000") //>2^64
             .check(
-              globalChecks.headerCache,
+              globalChecks.headerNoCache,
               status.not(500),
               status.not(200)
           ))
