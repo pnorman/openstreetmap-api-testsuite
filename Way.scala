@@ -102,7 +102,7 @@ object WayScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerNoCache,
               status.is(404)
             ))
         .exec(
@@ -111,7 +111,7 @@ object WayScenarios {
             .check(
               globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerNoCache,
               status.is(404)
             ))
       }

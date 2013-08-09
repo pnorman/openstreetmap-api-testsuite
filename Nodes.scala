@@ -75,18 +75,63 @@ object NodesScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerNoCache,
               status.is(404)
             ))
         .exec(
             http("1 existing 1 missing")
             .get("/nodes?nodes=1001,1000")
             .check(
-              sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
+              globalChecks.isEmptyResponse,
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerNoCache,
               status.is(404)
             ))
+      }
+      .group("Syntax tests") {
+        exec(
+          http("Empty request")
+            .get("/nodes")
+            .check(
+              globalChecks.headerCache,
+              status.is(400)
+          ))
+        .exec(
+          http("Empty nodes param")
+            .get("/nodes?nodes")
+            .check(
+              globalChecks.headerCache,
+              status.is(400)
+          ))
+        .exec(
+          http("Empty nodes param")
+            .get("/nodes?nodes=")
+            .check(
+              globalChecks.headerCache,
+              status.is(400)
+          ))
+        .exec(
+          http("Invalid nodes param")
+            .get("/nodes?nodes=asdf")
+            .check(
+              globalChecks.headerCache,
+              status.is(400)
+          ))
+        .exec(
+          http("Invalid and valid nodes param")
+            .get("/nodes?nodes=1001,asdf")
+            .check(
+              globalChecks.headerCache,
+              status.is(400)
+          ))
+        .exec(
+          http("Large node ID")
+            .get("/nodes?nodes=20000000000000000000") //>2^64
+            .check(
+              globalChecks.headerCache,
+              status.not(500),
+              status.not(200)
+          ))
       }
       .group("Single content tests") {
         exec(
@@ -394,7 +439,7 @@ object NodesScenarios {
             .check(
               sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709"),
               header("Content-Length").is("0"),
-              header("Cache-Control").is("no-cache"),
+              globalChecks.headerNoCache,
               status.is(404)
             ))
       }

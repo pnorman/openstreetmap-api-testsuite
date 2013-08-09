@@ -40,6 +40,7 @@ class ApiSimulation extends Simulation {
 object globalChecks {
   def headerCache = headerRegex("Cache-Control",
     """(max-age=0, ?(private, ?must-revalidate)|(must-revalidate, ?private))|(private, ?(max-age=0, ?must-revalidate)|(must-revalidate, ?max-age=0))|(must-revalidate, ?(private, ?max-age=0)|(max-age=0, ?private))|(no-cache)""").exists
+  def headerNoCache = header("Cache-Control").is("no-cache")
   def contentType = header("Content-Type").is("text/xml; charset=utf-8")
   def isEmptyResponse = sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
 }
