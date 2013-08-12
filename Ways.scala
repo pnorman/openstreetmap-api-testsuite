@@ -269,7 +269,7 @@ object WaysScenarios {
             ))
         .exec(
           http("diff created")
-            .get("/ways?ways=2005")
+            .get("/ways?ways=4005")
             .check(
               xpath("""/osm/way[@id="4005"]/nd[2]/@ref""").is("4014"),
               xpath("""/osm/way[@id="4005"]/nd[1]/@ref""").is("4013"),
