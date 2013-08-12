@@ -24,6 +24,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 1.1,1,1.2,1.1   Nodes and diff processing (id 2000-2999)
 1.2,1,1.3,1.1   Ways (id 3000-3999)
 1.3,1,1.4,1.1   Ways diff processing (id 4000-4999)
+1.4,1,1.5,1.1   Relations (id 5000-5999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -128,4 +129,54 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
     <tag k="b" v="2"/>
   </way>
   <!-- 4005-4006 are diff-created way -->
+  <!-- Relations -->
+  <!-- Nodes for testing -->
+  <node id="5001" version="1" changeset="5000" lat="1.001" lon="1.401" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5002" version="1" changeset="5000" lat="1.001" lon="1.402" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5003" version="1" changeset="5000" lat="1.001" lon="1.403" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Nodes for ways for testing -->
+  <node id="5011" version="1" changeset="5000" lat="1.011" lon="1.401" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5012" version="1" changeset="5000" lat="1.011" lon="1.402" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Ways for testing -->
+  <way id="5001" version="1" changeset="5000" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="5011"/>
+    <nd ref="5012"/>
+  </way>
+  <!-- Relations, each with one member, for each type -->
+  <relation id="5001" version="1" changeset="5001" user="user_5001" uid="5001" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5001" role=""/>
+  </relation>
+  <relation id="5002" version="1" changeset="5002" user="user_5002" uid="5002" timestamp="2012-10-01T00:00:00Z">
+    <member type="way" ref="5001" role=""/>
+  </relation>
+  <relation id="5003" version="1" changeset="5003" user="user_5003" uid="5003" timestamp="2012-10-01T00:00:00Z">
+    <member type="relation" ref="5001" role=""/>
+  </relation>
+  <!-- Empty relation -->
+  <relation id="5004" version="1" changeset="5004" user="user_5004" uid="5004" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Self-referental relation relation -->
+  <!-- Can this exist as v1? -->
+  <relation id="5005" version="2" changeset="5005" user="user_5005" uid="5005" timestamp="2012-10-01T00:00:00Z">
+    <member type="relation" ref="5005" role=""/>
+  </relation>
+  <!-- Roles -->
+  <relation id="5006" version="1" changeset="5006" user="user_5006" uid="5006" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5001" role="a"/>
+    <member type="node" ref="5002" role="b"/>
+    <member type="node" ref="5003" role="c"/>
+  </relation>
+  <relation id="5007" version="1" changeset="5007" user="user_5007" uid="5007" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5002" role="b"/>
+    <member type="node" ref="5001" role="a"/>
+    <member type="node" ref="5003" role="c"/>
+  </relation>
+  <!-- Anonymous relation -->
+  <relation id="5008" version="1" changeset="5008" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5001" role=""/>
+  </relation>
+  <!-- Tagged relation -->
+  <relation id="5009" version="1" changeset="5009" user="user_5009" uid="5009" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5001" role=""/>
+    <tag k="a" v="1"/>
+  </relation>
 </osm>
