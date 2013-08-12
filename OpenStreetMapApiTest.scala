@@ -28,13 +28,13 @@ class ApiSimulation extends Simulation {
 
   setUp(
     NodeScenarios.nodeScn.inject(atOnce(1 users)),
-    NodeScenarios.nodeDiffScn.inject(nothingFor(1 seconds), atOnce(1 users)),
-    NodesScenarios.nodesScn.inject(nothingFor(2 seconds), atOnce(1 users)),
-    NodesScenarios.nodesDiffScn.inject(nothingFor(3 seconds), atOnce(1 users)),
-    WayScenarios.wayScn.inject(nothingFor(4 seconds), atOnce(1 users)),
-    WayScenarios.wayDiffScn.inject(nothingFor(5 seconds), atOnce(1 users)),
-    WaysScenarios.waysScn.inject(nothingFor(6 seconds), atOnce(1 users)),
-    WaysScenarios.waysDiffScn.inject(nothingFor(7 seconds), atOnce(1 users))
+    NodeScenarios.nodeDiffScn.inject(nothingFor(250 milliseconds), atOnce(1 users)),
+    NodesScenarios.nodesScn.inject(nothingFor(500 milliseconds), atOnce(1 users)),
+    NodesScenarios.nodesDiffScn.inject(nothingFor(750 milliseconds), atOnce(1 users)),
+    WayScenarios.wayScn.inject(nothingFor(1000 milliseconds), atOnce(1 users)),
+    WayScenarios.wayDiffScn.inject(nothingFor(1250 milliseconds), atOnce(1 users)),
+    WaysScenarios.waysScn.inject(nothingFor(1500 milliseconds), atOnce(1 users)),
+    WaysScenarios.waysDiffScn.inject(nothingFor(1750 milliseconds), atOnce(1 users))
   )
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
