@@ -131,14 +131,14 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <!-- 4005-4006 are diff-created way -->
   <!-- Relations -->
   <!-- Nodes for testing -->
-  <node id="5001" version="1" changeset="5000" lat="1.001" lon="1.401" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
-  <node id="5002" version="1" changeset="5000" lat="1.001" lon="1.402" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
-  <node id="5003" version="1" changeset="5000" lat="1.001" lon="1.403" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5001" version="1" changeset="5000" lat="1.001" lon="1.401" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5002" version="1" changeset="5000" lat="1.001" lon="1.402" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5003" version="1" changeset="5000" lat="1.001" lon="1.403" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
   <!-- Nodes for ways for testing -->
-  <node id="5011" version="1" changeset="5000" lat="1.011" lon="1.401" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
-  <node id="5012" version="1" changeset="5000" lat="1.011" lon="1.402" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5011" version="1" changeset="5000" lat="1.011" lon="1.401" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="5012" version="1" changeset="5000" lat="1.011" lon="1.402" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z"/>
   <!-- Ways for testing -->
-  <way id="5001" version="1" changeset="5000" user="relation_members" uid="5000" timestamp="2012-10-01T00:00:00Z">
+  <way id="5001" version="1" changeset="5000" user="relation_members5" uid="5000" timestamp="2012-10-01T00:00:00Z">
     <nd ref="5011"/>
     <nd ref="5012"/>
   </way>
