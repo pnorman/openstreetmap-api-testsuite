@@ -13,6 +13,7 @@ import io.gatling.http.Headers.Names._
 import scala.concurrent.duration._
 import bootstrap._
 import assertions._
+import io.gatling.http.check.HttpCheck
 
 class ApiSimulation extends Simulation {
   // Depending on how your API is deployed you may need to change the baseURL
@@ -49,12 +50,43 @@ object checks {
   def contentType = header("Content-Type").is("text/xml; charset=utf-8")
   def isEmptyResponse = sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
 
+  def stripZero = (s:Option[String]) => s.map(_.replaceAll("0+$",""))
+
   def rootIsOsm = xpath("""/osm""").count.is(1)
   object osm {
     def license = xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/")
     def attribution = xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright")
     def copyright = xpath("""/osm/@copyright""").is("OpenStreetMap and contributors")
     def version = xpath("""/osm/@version""").is("0.6")
+
+    object node {
+      def unique(id: Int): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]""").count.is(1)
+      def attributes(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@*""").count.is(n)
+
+      def visible(id: Int): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@visible""").is("true")
+      def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@version""").is(version)
+
+      def uid(id: Int, uid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@uid""").is(uid)
+      def user(id: Int, uid: String): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@user""").is("user_"+uid)
+      def changeset(id: Int, changesetid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@changeset""").is(changesetid)
+
+      def lat(id: Int, lat: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@lat""").transform(s=>stripZero(s)).is(lat)
+      def lon(id: Int, lon: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@lon""").transform(s=>stripZero(s)).is(lon)
+
+      def tag(id: Int, k: String, v: String): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
+      def children(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/*""").count.is(n)
+    }
   }
 }
 
