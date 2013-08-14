@@ -264,6 +264,7 @@ object RelationScenarios {
             .check(
               xpath("""/osm/relation[@id="5009"]/tag[@k="a"]/@v""").is("1"),
               xpath("""/osm/relation[@id="5009"]/member[1]/@ref""").is("5001"),
+              xpath("""/osm/relation[@id="5009"]/member[1]/@role""").is(""),
               xpath("""/osm/relation[@id="5009"]/member[1]/@type""").is("node"),
               xpath("""/osm/relation[@id="5009"]/*""").count.is(2),
               xpath("""/osm/relation[@id="5009"]/@version""").is("1"),
@@ -277,5 +278,127 @@ object RelationScenarios {
               status.is(200)
             ))
       }
+    }
+  val relationDiffScn = scenario("Relation diff tests")
+    .group("R diff tests") {
+      group("Content tests") {
+        exec(
+          http("recreated")
+            .get("/relation/6002")
+            .check(
+              xpath("""/osm/relation[@id="6002"]/member[1]/@role""").is(""),
+              xpath("""/osm/relation[@id="6002"]/member[1]/@ref""").is("6002"),
+              xpath("""/osm/relation[@id="6002"]/member[1]/@type""").is("node"),
+              xpath("""/osm/relation[@id="6002"]/*""").count.is(1),
+              xpath("""/osm/relation[@id="6002"]/@version""").is("3"),
+              xpath("""/osm/relation[@id="6002"]/@changeset""").is("6202"),
+              xpath("""/osm/relation[@id="6002"]/@user""").is("user_6202"),
+              xpath("""/osm/relation[@id="6002"]/@uid""").is("6202"),
+              xpath("""/osm/relation[@id="6002"]/@visible""").is("true"),
+              xpath("""/osm/relation[@id="6002"]/@*""").count.is(7),
+              xpath("""/osm/relation[@id="6002"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              status.is(200)
+            ))
+        .exec(
+          http("recreated as untagged")
+            .get("/relation/6004")
+            .check(
+              status.is(200),
+              xpath("""/osm/*""").count.is(1),
+              xpath("""/osm/relation[@id="6004"]""").count.is(1),
+              xpath("""/osm/relation[@id="6004"]/@version""").is("3"),
+              xpath("""/osm/relation[@id="6004"]/@changeset""").is("6204"),
+              xpath("""/osm/relation[@id="6004"]/@user""").is("user_6204"),
+              xpath("""/osm/relation[@id="6004"]/@uid""").is("6204"),
+              xpath("""/osm/relation[@id="6004"]/@visible""").is("true"),
+              xpath("""/osm/relation[@id="6004"]/@*""").count.is(7),
+              xpath("""/osm/relation[@id="6004"]/*""").count.is(1),
+              xpath("""/osm/relation[@id="6004"]/member[1]/@role""").is(""),
+              xpath("""/osm/relation[@id="6004"]/member[1]/@ref""").is("6002"),
+              xpath("""/osm/relation[@id="6004"]/member[1]/@type""").is("node")
+            ))
+        .exec(
+          http("diff created")
+            .get("/relation/6005")
+            .check(
+              xpath("""/osm/relation[@id="6005"]/member[2]/@role""").is(""),
+              xpath("""/osm/relation[@id="6005"]/member[2]/@ref""").is("6002"),
+              xpath("""/osm/relation[@id="6005"]/member[2]/@type""").is("node"),
+              xpath("""/osm/relation[@id="6005"]/member[1]/@role""").is(""),
+              xpath("""/osm/relation[@id="6005"]/member[1]/@ref""").is("6001"),
+              xpath("""/osm/relation[@id="6005"]/member[1]/@type""").is("node"),
+              xpath("""/osm/relation[@id="6005"]/*""").count.is(2),
+              xpath("""/osm/relation[@id="6005"]/@version""").is("1"),
+              xpath("""/osm/relation[@id="6005"]/@changeset""").is("6205"),
+              xpath("""/osm/relation[@id="6005"]/@user""").is("user_6205"),
+              xpath("""/osm/relation[@id="6005"]/@uid""").is("6205"),
+              xpath("""/osm/relation[@id="6005"]/@visible""").is("true"),
+              xpath("""/osm/relation[@id="6005"]/@*""").count.is(7),
+              xpath("""/osm/relation[@id="6005"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              status.is(200)
+            ))
+        .exec(
+          http("diff created")
+            .get("/relation/6006")
+            .check(
+              xpath("""/osm/relation[@id="6006"]/tag[@k="b"]/@v""").is("2"),
+              xpath("""/osm/relation[@id="6006"]/member[2]/@role""").is("brr"),
+              xpath("""/osm/relation[@id="6006"]/member[2]/@ref""").is("6002"),
+              xpath("""/osm/relation[@id="6006"]/member[2]/@type""").is("node"),
+              xpath("""/osm/relation[@id="6006"]/member[1]/@role""").is("baz"),
+              xpath("""/osm/relation[@id="6006"]/member[1]/@ref""").is("6001"),
+              xpath("""/osm/relation[@id="6006"]/member[1]/@type""").is("node"),
+              xpath("""/osm/relation[@id="6006"]/*""").count.is(3),
+              xpath("""/osm/relation[@id="6006"]/@version""").is("1"),
+              xpath("""/osm/relation[@id="6006"]/@changeset""").is("6206"),
+              xpath("""/osm/relation[@id="6006"]/@user""").is("user_6206"),
+              xpath("""/osm/relation[@id="6006"]/@uid""").is("6206"),
+              xpath("""/osm/relation[@id="6006"]/@visible""").is("true"),
+              xpath("""/osm/relation[@id="6006"]/@*""").count.is(7),
+              xpath("""/osm/relation[@id="6006"]""").count.is(1),
+              xpath("""/osm/*""").count.is(1),
+              status.is(200)
+            ))
+      }
+    }
+    .group("R history tests") {
+      exec(
+          http("deleted")
+            .get("/relation/6001")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
+          http("deleted HEAD")
+            .head("/relation/6001")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
+          http("deleted tagged")
+            .get("/relation/6003")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
+        .exec(
+          http("deleted tagged HEAD")
+            .head("/relation/6003")
+            .check(
+              globalChecks.isEmptyResponse,
+              header("Content-Length").is("0"),
+              globalChecks.headerCache,
+              status.is(410)
+            ))
     }
 }

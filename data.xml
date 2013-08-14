@@ -25,6 +25,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 1.2,1,1.3,1.1   Ways (id 3000-3999)
 1.3,1,1.4,1.1   Ways diff processing (id 4000-4999)
 1.4,1,1.5,1.1   Relations (id 5000-5999)
+1.5,1,1.6,1.1   Ways diff processing (id 6000-6999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -177,6 +178,41 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
   <!-- Tagged relation -->
   <relation id="5009" version="1" changeset="5009" user="user_5009" uid="5009" timestamp="2012-10-01T00:00:00Z">
     <member type="node" ref="5001" role=""/>
+    <tag k="a" v="1"/>
+  </relation>
+  <!-- Relations diff processing -->
+  <!-- Nodes for testing -->
+  <node id="6001" version="1" changeset="6000" lat="1.001" lon="1.501" user="relation_members6" uid="6000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="6002" version="1" changeset="6000" lat="1.001" lon="1.502" user="relation_members6" uid="6000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="6003" version="1" changeset="6000" lat="1.001" lon="1.503" user="relation_members6" uid="6000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Nodes for ways for testing -->
+  <node id="6011" version="1" changeset="6000" lat="1.011" lon="1.501" user="relation_members6" uid="6000" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="6012" version="1" changeset="6000" lat="1.011" lon="1.502" user="relation_members6" uid="6000" timestamp="2012-10-01T00:00:00Z"/>
+  <!-- Ways for testing -->
+  <way id="6001" version="1" changeset="6000" user="relation_members5" uid="6000" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="6011"/>
+    <nd ref="6012"/>
+  </way>
+  <!-- Deleted relation -->
+  <relation id="6001" version="1" changeset="6001" user="user_6001" uid="6001" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="6001" role=""/>
+    <member type="node" ref="6002" role=""/>
+  </relation>
+  <!-- Deleted and created relation -->
+  <relation id="6002" version="1" changeset="6002" user="user_6002" uid="6002" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="5001" role=""/>
+    <member type="node" ref="6002" role=""/>
+  </relation>
+  <!-- Tagged deleted relation -->
+  <relation id="6003" version="1" changeset="6003" user="user_6003" uid="6003" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="6001" role="foo"/>
+    <member type="node" ref="6002" role="bar"/>
+    <tag k="a" v="1"/>
+  </relation>
+  <!-- Tagged deleted and created relation -->
+  <relation id="6004" version="1" changeset="6004" user="user_6004" uid="6004" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="6001" role="foo"/>
+    <member type="node" ref="6002" role="bar"/>
     <tag k="a" v="1"/>
   </relation>
 </osm>

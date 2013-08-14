@@ -83,4 +83,35 @@ See data.xml for more information on this file
       <tag k="b" v="2"/>
     </way>
   </create>
+  <!-- Relations diff processing -->
+  <!-- Deleted relations -->
+  <delete>
+    <relation id="6001" version="2" changeset="6101" user="user_6101" uid="6101" timestamp="2012-10-02T00:00:00Z"/>
+    <relation id="6003" version="2" changeset="6103" user="user_6103" uid="6103" timestamp="2012-10-02T00:00:00Z"/>
+  </delete>
+  <!-- Deleted and created relations -->
+  <delete>
+    <relation id="6002" version="2" changeset="6102" user="user_6102" uid="6102" timestamp="2012-11-02T00:00:00Z"/>
+    <relation id="6004" version="2" changeset="6104" user="user_6104" uid="6104" timestamp="2012-11-02T00:00:00Z"/>
+  </delete>
+  <modify>
+    <relation id="6002" version="3" changeset="6202" user="user_6202" uid="6202" timestamp="2012-11-03T00:00:00Z">
+      <member type="node" ref="6002" role=""/>
+    </relation>
+    <relation id="6004" version="3" changeset="6204" user="user_6204" uid="6204" timestamp="2012-11-03T00:00:00Z">
+      <member type="node" ref="6002" role=""/>
+    </relation>
+  </modify>
+  <!-- Diff-created relations -->
+  <create>
+    <relation id="6005" version="1" changeset="6205" user="user_6205" uid="6205" timestamp="2012-10-01T00:00:00Z">
+      <member type="node" ref="6001" role=""/>
+      <member type="node" ref="6002" role=""/>
+    </relation>
+    <relation id="6006" version="1" changeset="6206" user="user_6206" uid="6206" timestamp="2012-10-01T00:00:00Z">
+      <member type="node" ref="6001" role="baz"/>
+      <member type="node" ref="6002" role="brr"/>
+      <tag k="b" v="2"/>
+    </relation>
+  </create>
 </osmChange>
