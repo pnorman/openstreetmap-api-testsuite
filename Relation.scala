@@ -13,55 +13,56 @@ import bootstrap._
 object RelationScenarios {
   val relationScn = scenario("Relation tests")
     .group("R tests") {
-      group("Header accept tests") {
+      group("Accept header tests") {
         exec(
           http("*/*")
             .get("/relation/5001")
             .header("Accept","*/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/*")
             .get("/relation/5001")
             .header("Accept","text/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/xml")
             .get("/relation/5001")
             .header("Accept","text/xml")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("invalid *")
             .get("/relation/5001")
             .header("Accept","*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)))
+              checks.headerCache,
+              checks.rootIsOsm
+            ))
         .exec(
           http("invalid josm")
             .get("/relation/5001")
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
       }
       .group("Syntax tests") {
@@ -69,17 +70,17 @@ object RelationScenarios {
           http("Invalid request")
             .get("/relation/asdf")
             .check(
-              checks.headerCache,
               status.not(500),
-              status.not(200)
+              status.not(200),
+              checks.headerCache
           ))
         .exec(
           http("Large ID")
             .get("/relation/20000000000000000000") //>2^64
             .check(
-              checks.headerNoCache,
               status.not(500),
-              status.not(200)
+              status.not(200),
+              checks.headerCache
           ))
       }
       .group("Overall tests") {
@@ -87,42 +88,40 @@ object RelationScenarios {
           http("osm attributes")
             .get("/relation/5001")
             .check(
-              xpath("""/osm/@version""").is("0.6"),
-              xpath("""/osm/@copyright""").is("OpenStreetMap and contributors"),
-              xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
-              xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
-              xpath("""/*""").count.is(1),
-              checks.headerCache,
-              checks.contentType,
-              status.is(200)
+              status.is(200),
+              checks.rootIsOsm,
+              checks.osm.version,
+              checks.osm.copyright,
+              checks.osm.attribution,
+              checks.osm.license
             ))
         .exec(
             http("existing HEAD")
             .head("/relation/5001")
             .check(
-              header("Content-Length").not("0"),
+              status.is(200),
               checks.isEmptyResponse,
               checks.contentType,
               checks.headerCache,
-              status.is(200)
+              header("Content-Length").not("0")
             ))
         .exec(
             http("missing")
             .get("/relation/5000")
             .check(
-              checks.isEmptyResponse,
-              header("Content-Length").is("0"),
+              status.is(404),
               checks.headerNoCache,
-              status.is(404)
+              checks.isEmptyResponse,
+              header("Content-Length").is("0")
             ))
         .exec(
             http("missing HEAD")
             .head("/relation/5000")
             .check(
-              checks.isEmptyResponse,
+              status.is(404),
               header("Content-Length").is("0"),
               checks.headerNoCache,
-              status.is(404)
+              checks.isEmptyResponse
             ))
       }
       .group("Content tests") {
@@ -141,7 +140,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5001"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5001"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -159,7 +158,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5002"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5002"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -177,7 +176,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5003"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5003"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5003"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -192,7 +191,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5004"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5004"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5004"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -216,7 +215,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5006"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5006"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -240,7 +239,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5007"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5007"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5007"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -255,7 +254,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5008"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5008"]/@*""").count.is(5),
               xpath("""/osm/relation[@id="5008"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -274,7 +273,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="5009"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="5009"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="5009"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
       }
@@ -297,7 +296,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="6002"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="6002"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="6002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -305,7 +304,7 @@ object RelationScenarios {
             .get("/relation/6004")
             .check(
               status.is(200),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               xpath("""/osm/relation[@id="6004"]""").count.is(1),
               xpath("""/osm/relation[@id="6004"]/@version""").is("3"),
               xpath("""/osm/relation[@id="6004"]/@changeset""").is("6204"),
@@ -336,7 +335,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="6005"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="6005"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="6005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -358,7 +357,7 @@ object RelationScenarios {
               xpath("""/osm/relation[@id="6006"]/@visible""").is("true"),
               xpath("""/osm/relation[@id="6006"]/@*""").count.is(7),
               xpath("""/osm/relation[@id="6006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
       }

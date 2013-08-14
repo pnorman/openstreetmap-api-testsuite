@@ -22,49 +22,50 @@ object WaysScenarios {
             .get("/ways?ways=3001")
             .header("Accept","*/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/*")
             .get("/ways?ways=3001")
             .header("Accept","text/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/xml")
             .get("/ways?ways=3001")
             .header("Accept","text/xml")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("invalid *")
             .get("/ways?ways=3001")
             .header("Accept","*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)))
+              checks.headerCache,
+              checks.rootIsOsm
+			))
         .exec(
           http("invalid josm")
             .get("/ways?ways=3001")
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
       }
       .group("Multi deleted tests") {
@@ -147,7 +148,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="3001"]/@visible""").is("true"),
               xpath("""/osm/way[@id="3001"]/@*""").count.is(7),
               xpath("""/osm/way[@id="3001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -162,7 +163,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="3002"]/@visible""").is("true"),
               xpath("""/osm/way[@id="3002"]/@*""").count.is(5),
               xpath("""/osm/way[@id="3002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -247,7 +248,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4002"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4002"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -264,7 +265,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4004"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4004"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4004"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -281,7 +282,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4005"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4005"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
       }
@@ -302,7 +303,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4002"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4002"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -319,7 +320,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4004"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4004"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4004"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -336,7 +337,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4005"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4005"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -355,7 +356,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4006"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4006"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
       }

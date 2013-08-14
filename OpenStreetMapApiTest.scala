@@ -48,5 +48,13 @@ object checks {
   def headerNoCache = header("Cache-Control").is("no-cache")
   def contentType = header("Content-Type").is("text/xml; charset=utf-8")
   def isEmptyResponse = sha1.is("da39a3ee5e6b4b0d3255bfef95601890afd80709")
+
+  def rootIsOsm = xpath("""/osm""").count.is(1)
+  object osm {
+    def license = xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/")
+    def attribution = xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright")
+    def copyright = xpath("""/osm/@copyright""").is("OpenStreetMap and contributors")
+    def version = xpath("""/osm/@version""").is("0.6")
+  }
 }
 

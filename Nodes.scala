@@ -17,55 +17,56 @@ object NodesScenarios {
 
   val nodesScn = scenario("Nodes tests")
     .group("Ns tests") {
-      group("Single accept header tests") {
+      group("Accept header tests") {
         exec(
           http("*/*")
             .get("/nodes?nodes=1001")
             .header("Accept","*/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/*")
             .get("/nodes?nodes=1001")
             .header("Accept","text/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/xml")
             .get("/nodes?nodes=1001")
             .header("Accept","text/xml")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("invalid *")
             .get("/nodes?nodes=1001")
             .header("Accept","*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)))
+              checks.headerCache,
+              checks.rootIsOsm
+			))
         .exec(
           http("invalid josm")
             .get("/nodes?nodes=1001")
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
       }
       .group("Multi deleted tests") {
@@ -147,7 +148,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="1001"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1001"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -163,7 +164,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="1002"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1002"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -182,7 +183,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="1005"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1005"]/@*""").count.is(9),
               xpath("""/osm/node[@id="1005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -196,7 +197,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="1003"]/@visible""").is("true"),
               xpath("""/osm/node[@id="1003"]/@*""").count.is(7),
               xpath("""/osm/node[@id="1003"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               status.is(200)
             ))
       }
@@ -276,7 +277,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2002"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2002"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -294,7 +295,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2004"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2004"]/*""").count.is(0), // untagged
               xpath("""/osm/node[@id="2004"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -311,7 +312,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2005"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2005"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -330,7 +331,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2006"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2006"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -347,7 +348,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2007"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2007"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2007"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -366,7 +367,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2008"]/@visible""").is("true"),
               xpath("""/osm/node[@id="2008"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2008"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -385,7 +386,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2001"]/@visible""").is("false"),
               xpath("""/osm/node[@id="2001"]/@*""").count.is(7),
               xpath("""/osm/node[@id="2001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))
@@ -401,7 +402,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2003"]/@visible""").is("false"),
               xpath("""/osm/node[@id="2003"]/@*""").count.is(7),
               xpath("""/osm/node[@id="2003"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1),
+              checks.rootIsOsm,
               checks.contentType,
               status.is(200)
             ))

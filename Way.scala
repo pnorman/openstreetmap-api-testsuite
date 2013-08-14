@@ -4,7 +4,7 @@ This file is part of openstreetmap-api-testsuite
 
 Copyright (c) 2013 Paul Norman, released under the MIT license.
 
-Defines various test cases for nodes
+Defines various test cases for ways
 */
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -13,55 +13,56 @@ import bootstrap._
 object WayScenarios {
   val wayScn = scenario("Way tests")
     .group("W tests") {
-      group("Header accept tests") {
+      group("Accept header tests") {
         exec(
           http("*/*")
             .get("/way/3001")
             .header("Accept","*/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/*")
             .get("/way/3001")
             .header("Accept","text/*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("text/xml")
             .get("/way/3001")
             .header("Accept","text/xml")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
         .exec(
           http("invalid *")
             .get("/way/3001")
             .header("Accept","*")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)))
+              checks.headerCache,
+              checks.rootIsOsm
+            ))
         .exec(
           http("invalid josm")
             .get("/way/3001")
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
-              xpath("""/osm""").count.is(1),
-              checks.headerCache,
+              status.is(200),
               checks.contentType,
-              status.is(200)
+              checks.headerCache,
+              checks.rootIsOsm
             ))
       }
       .group("Syntax tests") {
@@ -69,17 +70,17 @@ object WayScenarios {
           http("Invalid request")
             .get("/way/asdf")
             .check(
-              checks.headerCache,
               status.not(500),
-              status.not(200)
+              status.not(200),
+              checks.headerCache
           ))
         .exec(
           http("Large ID")
             .get("/way/20000000000000000000") //>2^64
             .check(
-              checks.headerNoCache,
               status.not(500),
-              status.not(200)
+              status.not(200),
+              checks.headerCache
           ))
       }
       .group("Overall tests") {
@@ -87,42 +88,40 @@ object WayScenarios {
           http("osm attributes")
             .get("/way/3001")
             .check(
-              xpath("""/osm/@version""").is("0.6"),
-              xpath("""/osm/@copyright""").is("OpenStreetMap and contributors"),
-              xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
-              xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
-              xpath("""/*""").count.is(1),
-              checks.headerCache,
-              checks.contentType,
-              status.is(200)
+              status.is(200),
+              checks.rootIsOsm,
+              checks.osm.version,
+              checks.osm.copyright,
+              checks.osm.attribution,
+              checks.osm.license
             ))
         .exec(
             http("existing HEAD")
             .head("/way/3001")
             .check(
-              header("Content-Length").not("0"),
+              status.is(200),
               checks.isEmptyResponse,
               checks.contentType,
               checks.headerCache,
-              status.is(200)
+              header("Content-Length").not("0")
             ))
         .exec(
             http("missing")
             .get("/way/3000")
             .check(
-              checks.isEmptyResponse,
-              header("Content-Length").is("0"),
+              status.is(404),
               checks.headerNoCache,
-              status.is(404)
+              checks.isEmptyResponse,
+              header("Content-Length").is("0")
             ))
         .exec(
             http("missing HEAD")
             .head("/way/3000")
             .check(
-              checks.isEmptyResponse,
+              status.is(404),
               header("Content-Length").is("0"),
               checks.headerNoCache,
-              status.is(404)
+              checks.isEmptyResponse
             ))
       }
       .group("Content tests") {
@@ -140,7 +139,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="3001"]/@visible""").is("true"),
               xpath("""/osm/way[@id="3001"]/@*""").count.is(7),
               xpath("""/osm/way[@id="3001"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -155,7 +154,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="3002"]/@visible""").is("true"),
               xpath("""/osm/way[@id="3002"]/@*""").count.is(5),
               xpath("""/osm/way[@id="3002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -211,7 +210,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="4002"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4002"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4002"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -228,7 +227,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="4004"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4004"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4004"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -245,7 +244,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="4005"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4005"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4005"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
         .exec(
@@ -264,7 +263,7 @@ object WayScenarios {
               xpath("""/osm/way[@id="4006"]/@visible""").is("true"),
               xpath("""/osm/way[@id="4006"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4006"]""").count.is(1),
-              xpath("""/osm/*""").count.is(1), 
+              checks.rootIsOsm,
               status.is(200)
             ))
       }
