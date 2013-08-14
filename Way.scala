@@ -20,8 +20,8 @@ object WayScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -30,8 +30,8 @@ object WayScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -40,8 +40,8 @@ object WayScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -50,8 +50,8 @@ object WayScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)))
         .exec(
           http("invalid josm")
@@ -59,8 +59,8 @@ object WayScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -69,7 +69,7 @@ object WayScenarios {
           http("Invalid request")
             .get("/way/asdf")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.not(500),
               status.not(200)
           ))
@@ -77,7 +77,7 @@ object WayScenarios {
           http("Large ID")
             .get("/way/20000000000000000000") //>2^64
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.not(500),
               status.not(200)
           ))
@@ -92,8 +92,8 @@ object WayScenarios {
               xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright"),
               xpath("""/osm/@license""").is("http://opendatacommons.org/licenses/odbl/1-0/"),
               xpath("""/*""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -101,27 +101,27 @@ object WayScenarios {
             .head("/way/3001")
             .check(
               header("Content-Length").not("0"),
-              globalChecks.isEmptyResponse,
-              globalChecks.contentType,
-              globalChecks.headerCache,
+              checks.isEmptyResponse,
+              checks.contentType,
+              checks.headerCache,
               status.is(200)
             ))
         .exec(
             http("missing")
             .get("/way/3000")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
         .exec(
             http("missing HEAD")
             .head("/way/3000")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
       }
@@ -274,36 +274,36 @@ object WayScenarios {
           http("deleted")
             .get("/way/4001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(410)
             ))
         .exec(
           http("deleted HEAD")
             .head("/way/4001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(410)
             ))
         .exec(
           http("deleted tagged")
             .get("/way/4003")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(410)
             ))
         .exec(
           http("deleted tagged HEAD")
             .head("/way/4003")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(410)
             ))
     }

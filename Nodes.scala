@@ -24,8 +24,8 @@ object NodesScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -34,8 +34,8 @@ object NodesScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -44,8 +44,8 @@ object NodesScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -54,8 +54,8 @@ object NodesScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)))
         .exec(
           http("invalid josm")
@@ -63,8 +63,8 @@ object NodesScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -73,18 +73,18 @@ object NodesScenarios {
             http("1 missing 1 existing")
             .get("/nodes?nodes=1000,1001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
         .exec(
             http("1 existing 1 missing")
             .get("/nodes?nodes=1001,1000")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
       }
@@ -93,42 +93,42 @@ object NodesScenarios {
           http("Empty request")
             .get("/nodes")
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(400)
           ))
         .exec(
           http("Empty nodes param")
             .get("/nodes?nodes")
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(400)
           ))
         .exec(
           http("Empty nodes param")
             .get("/nodes?nodes=")
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(400)
           ))
         .exec(
           http("Invalid nodes param")
             .get("/nodes?nodes=asdf")
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(400)
           ))
         .exec(
           http("Invalid and valid nodes param")
             .get("/nodes?nodes=1001,asdf")
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(400)
           ))
         .exec(
           http("Large node ID")
             .get("/nodes?nodes=20000000000000000000") //>2^64
             .check(
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.not(500),
               status.not(200)
           ))
@@ -277,7 +277,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2002"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2002"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -295,7 +295,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2004"]/*""").count.is(0), // untagged
               xpath("""/osm/node[@id="2004"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -312,7 +312,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2005"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2005"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -331,7 +331,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2006"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2006"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -348,7 +348,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2007"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2007"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -367,7 +367,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2008"]/@*""").count.is(9),
               xpath("""/osm/node[@id="2008"]""").count.is(1),
               xpath("""/osm/*""").count.is(1), 
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -386,7 +386,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2001"]/@*""").count.is(7),
               xpath("""/osm/node[@id="2001"]""").count.is(1),
               xpath("""/osm/*""").count.is(1),
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -402,7 +402,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2003"]/@*""").count.is(7),
               xpath("""/osm/node[@id="2003"]""").count.is(1),
               xpath("""/osm/*""").count.is(1),
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -428,7 +428,7 @@ object NodesScenarios {
               xpath("""/osm/node[@id="2003"]/@*""").count.is(7),
               xpath("""/osm/node[@id="2003"]""").count.is(1),
               xpath("""/osm/*""").count.is(2),
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -437,9 +437,9 @@ object NodesScenarios {
             http("1 deleted 1 missing")
             .get("/nodes?nodes=1000,2001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
       }

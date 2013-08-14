@@ -23,8 +23,8 @@ object WaysScenarios {
             .header("Accept","*/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -33,8 +33,8 @@ object WaysScenarios {
             .header("Accept","text/*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -43,8 +43,8 @@ object WaysScenarios {
             .header("Accept","text/xml")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
         .exec(
@@ -53,8 +53,8 @@ object WaysScenarios {
             .header("Accept","*")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)))
         .exec(
           http("invalid josm")
@@ -62,8 +62,8 @@ object WaysScenarios {
             .header("Accept","text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2")
             .check(
               xpath("""/osm""").count.is(1),
-              globalChecks.headerCache,
-              globalChecks.contentType,
+              checks.headerCache,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -72,18 +72,18 @@ object WaysScenarios {
             http("1 missing 1 existing")
             .get("/ways?ways=4000,4001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
         .exec(
             http("1 existing 1 missing")
             .get("/ways?ways=4000,4001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
       }
@@ -92,42 +92,42 @@ object WaysScenarios {
           http("Empty request")
             .get("/ways")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(400)
           ))
         .exec(
           http("Empty ways param")
             .get("/ways?ways")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(400)
           ))
         .exec(
           http("Empty ways param")
             .get("/ways?ways=")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(400)
           ))
         .exec(
           http("Invalid ways param")
             .get("/ways?ways=asdf")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(400)
           ))
         .exec(
           http("Invalid and valid ways param")
             .get("/ways?ways=3001,asdf")
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.is(400)
           ))
         .exec(
           http("Large ID")
             .get("/ways?ways=20000000000000000000") //>2^64
             .check(
-              globalChecks.headerCache,
+              checks.headerCache,
               status.not(500),
               status.not(200)
           ))
@@ -379,7 +379,7 @@ object WaysScenarios {
               xpath("""/osm/way[@id="4003"]/@*""").count.is(7),
               xpath("""/osm/way[@id="4003"]""").count.is(1),
               xpath("""/osm/*""").count.is(2),
-              globalChecks.contentType,
+              checks.contentType,
               status.is(200)
             ))
       }
@@ -388,9 +388,9 @@ object WaysScenarios {
             http("1 deleted 1 missing")
             .get("/ways?ways=3000,4001")
             .check(
-              globalChecks.isEmptyResponse,
+              checks.isEmptyResponse,
               header("Content-Length").is("0"),
-              globalChecks.headerNoCache,
+              checks.headerNoCache,
               status.is(404)
             ))
       }
