@@ -82,10 +82,37 @@ object checks {
       def lon(id: Int, lon: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
         xpath("""/osm/node[@id="""" + id + """"]/@lon""").transform(s=>stripZero(s)).is(lon)
 
-      def tag(id: Int, k: String, v: String): HttpCheck =
-        xpath("""/osm/node[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
       def children(id: Int, n: Int): HttpCheck =
         xpath("""/osm/node[@id="""" + id + """"]/*""").count.is(n)
+      def tag(id: Int, k: String, v: String): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
+    }
+
+    object way {
+      def unique(id: Int): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]""").count.is(1)
+      def attributes(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@*""").count.is(n)
+
+      def visible(id: Int): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@visible""").is("true")
+      def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@version""").is(version)
+
+      def uid(id: Int, uid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@uid""").is(uid)
+      def user(id: Int, uid: String): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@user""").is("user_"+uid)
+      def changeset(id: Int, changesetid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@changeset""").is(changesetid)
+
+      def children(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/*""").count.is(n)
+      def tag(id: Int, k: String, v: String): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
+      def nd(id: Int, i: Int, n: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/nd[""" + i + """]/@ref""").is(n)
+      
     }
   }
 }

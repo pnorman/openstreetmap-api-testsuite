@@ -110,9 +110,9 @@ object WayScenarios {
             .get("/way/3000")
             .check(
               status.is(404),
+              header("Content-Length").is("0"),
               checks.headerNoCache,
-              checks.isEmptyResponse,
-              header("Content-Length").is("0")
+              checks.isEmptyResponse
             ))
         .exec(
             http("missing HEAD")
@@ -129,66 +129,72 @@ object WayScenarios {
           http("attributes")
             .get("/way/3001")
             .check(
-              xpath("""/osm/way[@id="3001"]/nd[2]/@ref""").is("3012"),
-              xpath("""/osm/way[@id="3001"]/nd[1]/@ref""").is("3011"),
-              xpath("""/osm/way[@id="3001"]/*""").count.is(2),
-              xpath("""/osm/way[@id="3001"]/@version""").is("1"),
-              xpath("""/osm/way[@id="3001"]/@changeset""").is("3001"),
-              xpath("""/osm/way[@id="3001"]/@user""").is("user_3001"),
-              xpath("""/osm/way[@id="3001"]/@uid""").is("3001"),
-              xpath("""/osm/way[@id="3001"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="3001"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="3001"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(3001),
+              checks.osm.way.attributes(3001, 7),
+              checks.osm.way.visible(3001),
+              checks.osm.way.version(3001,"1"),
+              checks.osm.way.uid(3001,"3001"),
+              checks.osm.way.user(3001,"3001"),
+              checks.osm.way.changeset(3001,"3001"),
+              checks.osm.way.children(3001,2),
+              checks.osm.way.nd(3001,1,"3011"),
+              checks.osm.way.nd(3001,2,"3012")
             ))
         .exec(
           http("anonymous way")
             .get("/way/3002")
             .check(
-              xpath("""/osm/way[@id="3002"]/nd[2]/@ref""").is("3012"),
-              xpath("""/osm/way[@id="3002"]/nd[1]/@ref""").is("3011"),
-              xpath("""/osm/way[@id="3002"]/*""").count.is(2),
-              xpath("""/osm/way[@id="3002"]/@version""").is("1"),
-              xpath("""/osm/way[@id="3002"]/@changeset""").is("3002"),
-              xpath("""/osm/way[@id="3002"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="3002"]/@*""").count.is(5),
-              xpath("""/osm/way[@id="3002"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(3002),
+              checks.osm.way.attributes(3002, 5),
+              checks.osm.way.visible(3002),
+              checks.osm.way.version(3002,"1"),
+              checks.osm.way.changeset(3002,"3002"),
+              checks.osm.way.children(3002,2),
+              checks.osm.way.nd(3002,1,"3011"),
+              checks.osm.way.nd(3002,2,"3012")
             ))
         .exec(
           http("tagged way")
             .get("/way/3003")
             .check(
-              xpath("""/osm/way[@id="3003"]/tag[@k="b"]/@v""").is("2"),
-              xpath("""/osm/way[@id="3003"]/tag[@k="a"]/@v""").is("1"),
-              xpath("""/osm/way[@id="3003"]/nd[2]/@ref""").is("3012"),
-              xpath("""/osm/way[@id="3003"]/nd[1]/@ref""").is("3011"),
-              xpath("""/osm/way[@id="3003"]/*""").count.is(4),
-              xpath("""/osm/way[@id="3003"]/@version""").is("1"),
-              xpath("""/osm/way[@id="3003"]/@changeset""").is("3003"),
-              xpath("""/osm/way[@id="3003"]/@user""").is("user_3003"),
-              xpath("""/osm/way[@id="3003"]/@uid""").is("3003"),
-              xpath("""/osm/way[@id="3003"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="3003"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="3003"]""").count.is(1),
-              status.is(200)
+              status.is(200),
+              checks.contentType,
+              checks.rootIsOsm,
+              checks.osm.way.unique(3003),
+              checks.osm.way.attributes(3003, 7),
+              checks.osm.way.visible(3003),
+              checks.osm.way.version(3003,"1"),
+              checks.osm.way.uid(3003,"3003"),
+              checks.osm.way.user(3003,"3003"),
+              checks.osm.way.changeset(3003,"3003"),
+              checks.osm.way.children(3003,4),
+              checks.osm.way.nd(3003,1,"3011"),
+              checks.osm.way.nd(3003,2,"3012"),
+              checks.osm.way.tag(3003,"a","1"),
+              checks.osm.way.tag(3003,"b","2")
             ))
         .exec(
           http("one node way")
             .get("/way/3004")
             .check(
-              xpath("""/osm/way[@id="3004"]/nd[1]/@ref""").is("3011"),
-              xpath("""/osm/way[@id="3004"]/*""").count.is(1),
-              xpath("""/osm/way[@id="3004"]/@version""").is("1"),
-              xpath("""/osm/way[@id="3004"]/@changeset""").is("3004"),
-              xpath("""/osm/way[@id="3004"]/@user""").is("user_3004"),
-              xpath("""/osm/way[@id="3004"]/@uid""").is("3004"),
-              xpath("""/osm/way[@id="3004"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="3004"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="3004"]""").count.is(1),
-              status.is(200)
+              status.is(200),
+              checks.contentType,
+              checks.rootIsOsm,
+              checks.osm.way.unique(3004),
+              checks.osm.way.attributes(3004, 7),
+              checks.osm.way.visible(3004),
+              checks.osm.way.version(3004,"1"),
+              checks.osm.way.uid(3004,"3004"),
+              checks.osm.way.user(3004,"3004"),
+              checks.osm.way.changeset(3004,"3004"),
+              checks.osm.way.children(3004,1),
+              checks.osm.way.nd(3004,1,"3011")
             )) 
       }
     }
@@ -200,71 +206,75 @@ object WayScenarios {
           http("recreated")
             .get("/way/4002")
             .check(
-              xpath("""/osm/way[@id="4002"]/nd[2]/@ref""").is("4014"),
-              xpath("""/osm/way[@id="4002"]/nd[1]/@ref""").is("4013"),
-              xpath("""/osm/way[@id="4002"]/*""").count.is(2),
-              xpath("""/osm/way[@id="4002"]/@version""").is("3"),
-              xpath("""/osm/way[@id="4002"]/@changeset""").is("4202"),
-              xpath("""/osm/way[@id="4002"]/@user""").is("user_4202"),
-              xpath("""/osm/way[@id="4002"]/@uid""").is("4202"),
-              xpath("""/osm/way[@id="4002"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="4002"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="4002"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(4002),
+              checks.osm.way.attributes(4002, 7),
+              checks.osm.way.visible(4002),
+              checks.osm.way.version(4002,"3"),
+              checks.osm.way.uid(4002,"4202"),
+              checks.osm.way.user(4002,"4202"),
+              checks.osm.way.changeset(4002,"4202"),
+              checks.osm.way.children(4002,2),
+              checks.osm.way.nd(4002,1,"4013"),
+              checks.osm.way.nd(4002,2,"4014")
             ))
         .exec(
           http("recreated as untagged")
             .get("/way/4004")
             .check(
-              xpath("""/osm/way[@id="4004"]/nd[2]/@ref""").is("4014"),
-              xpath("""/osm/way[@id="4004"]/nd[1]/@ref""").is("4013"),
-              xpath("""/osm/way[@id="4004"]/*""").count.is(2),
-              xpath("""/osm/way[@id="4004"]/@version""").is("3"),
-              xpath("""/osm/way[@id="4004"]/@changeset""").is("4204"),
-              xpath("""/osm/way[@id="4004"]/@user""").is("user_4204"),
-              xpath("""/osm/way[@id="4004"]/@uid""").is("4204"),
-              xpath("""/osm/way[@id="4004"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="4004"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="4004"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(4004),
+              checks.osm.way.attributes(4004, 7),
+              checks.osm.way.visible(4004),
+              checks.osm.way.version(4004,"3"),
+              checks.osm.way.uid(4004,"4204"),
+              checks.osm.way.user(4004,"4204"),
+              checks.osm.way.changeset(4004,"4204"),
+              checks.osm.way.children(4004,2),
+              checks.osm.way.nd(4004,1,"4013"),
+              checks.osm.way.nd(4004,2,"4014")
             ))
         .exec(
           http("diff created")
             .get("/way/4005")
             .check(
-              xpath("""/osm/way[@id="4005"]/nd[2]/@ref""").is("4014"),
-              xpath("""/osm/way[@id="4005"]/nd[1]/@ref""").is("4013"),
-              xpath("""/osm/way[@id="4005"]/*""").count.is(2),
-              xpath("""/osm/way[@id="4005"]/@version""").is("1"),
-              xpath("""/osm/way[@id="4005"]/@changeset""").is("4205"),
-              xpath("""/osm/way[@id="4005"]/@user""").is("user_4205"),
-              xpath("""/osm/way[@id="4005"]/@uid""").is("4205"),
-              xpath("""/osm/way[@id="4005"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="4005"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="4005"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(4005),
+              checks.osm.way.attributes(4005, 7),
+              checks.osm.way.visible(4005),
+              checks.osm.way.version(4005,"1"),
+              checks.osm.way.uid(4005,"4205"),
+              checks.osm.way.user(4005,"4205"),
+              checks.osm.way.changeset(4005,"4205"),
+              checks.osm.way.children(4005,2),
+              checks.osm.way.nd(4005,1,"4013"),
+              checks.osm.way.nd(4005,2,"4014")
             ))
         .exec(
           http("diff created tagged")
             .get("/way/4006")
             .check(
-              xpath("""/osm/way[@id="4006"]/tag[@k="b"]/@v""").is("2"),
-              xpath("""/osm/way[@id="4006"]/tag[@k="a"]/@v""").is("1"),
-              xpath("""/osm/way[@id="4006"]/nd[2]/@ref""").is("4014"),
-              xpath("""/osm/way[@id="4006"]/nd[1]/@ref""").is("4013"),
-              xpath("""/osm/way[@id="4006"]/*""").count.is(4),
-              xpath("""/osm/way[@id="4006"]/@version""").is("1"),
-              xpath("""/osm/way[@id="4006"]/@changeset""").is("4206"),
-              xpath("""/osm/way[@id="4006"]/@user""").is("user_4206"),
-              xpath("""/osm/way[@id="4006"]/@uid""").is("4206"),
-              xpath("""/osm/way[@id="4006"]/@visible""").is("true"),
-              xpath("""/osm/way[@id="4006"]/@*""").count.is(7),
-              xpath("""/osm/way[@id="4006"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.way.unique(4006),
+              checks.osm.way.attributes(4006, 7),
+              checks.osm.way.visible(4006),
+              checks.osm.way.version(4006,"1"),
+              checks.osm.way.uid(4006,"4206"),
+              checks.osm.way.user(4006,"4206"),
+              checks.osm.way.changeset(4006,"4206"),
+              checks.osm.way.children(4006,4),
+              checks.osm.way.nd(4006,1,"4013"),
+              checks.osm.way.nd(4006,2,"4014"),
+              checks.osm.way.tag(4006,"a","1"),
+              checks.osm.way.tag(4006,"b","2")
             ))
       }
     }
