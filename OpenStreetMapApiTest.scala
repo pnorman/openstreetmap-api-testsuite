@@ -37,7 +37,9 @@ class ApiSimulation extends Simulation {
     WaysScenarios.waysScn.inject(nothingFor(1500 milliseconds), atOnce(1 users)),
     WaysScenarios.waysDiffScn.inject(nothingFor(1750 milliseconds), atOnce(1 users)),
     RelationScenarios.relationScn.inject(nothingFor(2000 milliseconds), atOnce(1 users)),
-    RelationScenarios.relationDiffScn.inject(nothingFor(2250 milliseconds), atOnce(1 users))
+    RelationScenarios.relationDiffScn.inject(nothingFor(2250 milliseconds), atOnce(1 users)),
+    RelationsScenarios.relationsScn.inject(nothingFor(2500 milliseconds), atOnce(1 users)),
+    RelationsScenarios.relationsDiffScn.inject(nothingFor(2750 milliseconds), atOnce(1 users))
   )
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
@@ -58,6 +60,7 @@ object checks {
     def attribution = xpath("""/osm/@attribution""").is("http://www.openstreetmap.org/copyright")
     def copyright = xpath("""/osm/@copyright""").is("OpenStreetMap and contributors")
     def version = xpath("""/osm/@version""").is("0.6")
+    def objects(n: Int): HttpCheck = xpath("""/osm/*""").count.is(n)
 
     object node {
       def unique(id: Int): HttpCheck =
@@ -67,6 +70,8 @@ object checks {
 
       def visible(id: Int): HttpCheck =
         xpath("""/osm/node[@id="""" + id + """"]/@visible""").is("true")
+      def deleted(id: Int): HttpCheck =
+        xpath("""/osm/node[@id="""" + id + """"]/@visible""").is("false")
       def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
         xpath("""/osm/node[@id="""" + id + """"]/@version""").is(version)
 
@@ -96,6 +101,8 @@ object checks {
 
       def visible(id: Int): HttpCheck =
         xpath("""/osm/way[@id="""" + id + """"]/@visible""").is("true")
+      def deleted(id: Int): HttpCheck =
+        xpath("""/osm/way[@id="""" + id + """"]/@visible""").is("false")
       def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
         xpath("""/osm/way[@id="""" + id + """"]/@version""").is(version)
 
@@ -122,6 +129,8 @@ object checks {
 
       def visible(id: Int): HttpCheck =
         xpath("""/osm/relation[@id="""" + id + """"]/@visible""").is("true")
+      def deleted(id: Int): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@visible""").is("false")
       def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
         xpath("""/osm/relation[@id="""" + id + """"]/@version""").is(version)
 
