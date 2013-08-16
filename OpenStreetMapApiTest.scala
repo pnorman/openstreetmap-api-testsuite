@@ -112,7 +112,39 @@ object checks {
         xpath("""/osm/way[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
       def nd(id: Int, i: Int, n: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
         xpath("""/osm/way[@id="""" + id + """"]/nd[""" + i + """]/@ref""").is(n)
-      
+    }
+
+    object relation {
+      def unique(id: Int): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]""").count.is(1)
+      def attributes(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@*""").count.is(n)
+
+      def visible(id: Int): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@visible""").is("true")
+      def version(id: Int, version: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@version""").is(version)
+
+      def uid(id: Int, uid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@uid""").is(uid)
+      def user(id: Int, uid: String): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@user""").is("user_"+uid)
+      def changeset(id: Int, changesetid: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/@changeset""").is(changesetid)
+
+      def children(id: Int, n: Int): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/*""").count.is(n)
+      def tag(id: Int, k: String, v: String): HttpCheck =
+        xpath("""/osm/relation[@id="""" + id + """"]/tag[@k="""" + k + """"]/@v""").is(v)
+        
+      object member {
+        def t(id: Int, i: Int, t: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+          xpath("""/osm/relation[@id="""" + id + """"]/member[""" + i + """]/@type""").is(t)
+        def ref(id: Int, i: Int, n: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+          xpath("""/osm/relation[@id="""" + id + """"]/member[""" + i + """]/@ref""").is(n)
+        def role(id: Int, i: Int, r: io.gatling.core.session.Session => io.gatling.core.validation.Validation[String]): HttpCheck =
+          xpath("""/osm/relation[@id="""" + id + """"]/member[""" + i + """]/@role""").is(r)
+      }
     }
   }
 }

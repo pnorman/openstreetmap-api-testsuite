@@ -89,6 +89,7 @@ object RelationScenarios {
             .get("/relation/5001")
             .check(
               status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
               checks.osm.version,
               checks.osm.copyright,
@@ -129,152 +130,180 @@ object RelationScenarios {
           http("node member")
             .get("/relation/5001")
             .check(
-              xpath("""/osm/relation[@id="5001"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="5001"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5001"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5001"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="5001"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5001"]/@changeset""").is("5001"),
-              xpath("""/osm/relation[@id="5001"]/@user""").is("user_5001"),
-              xpath("""/osm/relation[@id="5001"]/@uid""").is("5001"),
-              xpath("""/osm/relation[@id="5001"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5001"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5001"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5001),
+              checks.osm.relation.attributes(5001, 7),
+              checks.osm.relation.visible(5001),
+              checks.osm.relation.version(5001,"1"),
+              checks.osm.relation.uid(5001,"5001"),
+              checks.osm.relation.user(5001,"5001"),
+              checks.osm.relation.changeset(5001,"5001"),
+              checks.osm.relation.children(5001,1),
+              checks.osm.relation.member.t(5001,1,"node"),
+              checks.osm.relation.member.ref(5001,1,"5001"),
+              checks.osm.relation.member.role(5001,1,"")
             ))
         .exec(
           http("way member")
             .get("/relation/5002")
             .check(
-              xpath("""/osm/relation[@id="5002"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="5002"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5002"]/member[1]/@type""").is("way"),
-              xpath("""/osm/relation[@id="5002"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="5002"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5002"]/@changeset""").is("5002"),
-              xpath("""/osm/relation[@id="5002"]/@user""").is("user_5002"),
-              xpath("""/osm/relation[@id="5002"]/@uid""").is("5002"),
-              xpath("""/osm/relation[@id="5002"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5002"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5002"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5002),
+              checks.osm.relation.attributes(5002, 7),
+              checks.osm.relation.visible(5002),
+              checks.osm.relation.version(5002,"1"),
+              checks.osm.relation.uid(5002,"5002"),
+              checks.osm.relation.user(5002,"5002"),
+              checks.osm.relation.changeset(5002,"5002"),
+              checks.osm.relation.children(5002,1),
+              checks.osm.relation.member.t(5002,1,"way"),
+              checks.osm.relation.member.ref(5002,1,"5001"),
+              checks.osm.relation.member.role(5002,1,"")
             ))
         .exec(
           http("relation member")
             .get("/relation/5003")
             .check(
-              xpath("""/osm/relation[@id="5003"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="5003"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5003"]/member[1]/@type""").is("relation"),
-              xpath("""/osm/relation[@id="5003"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="5003"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5003"]/@changeset""").is("5003"),
-              xpath("""/osm/relation[@id="5003"]/@user""").is("user_5003"),
-              xpath("""/osm/relation[@id="5003"]/@uid""").is("5003"),
-              xpath("""/osm/relation[@id="5003"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5003"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5003"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5003),
+              checks.osm.relation.attributes(5003, 7),
+              checks.osm.relation.visible(5003),
+              checks.osm.relation.version(5003,"1"),
+              checks.osm.relation.uid(5003,"5003"),
+              checks.osm.relation.user(5003,"5003"),
+              checks.osm.relation.changeset(5003,"5003"),
+              checks.osm.relation.children(5003,1),
+              checks.osm.relation.member.t(5003,1,"relation"),
+              checks.osm.relation.member.ref(5003,1,"5001"),
+              checks.osm.relation.member.role(5003,1,"")
             ))
         .exec(
           http("no members")
             .get("/relation/5004")
             .check(
-              xpath("""/osm/relation[@id="5004"]/*""").count.is(0),
-              xpath("""/osm/relation[@id="5004"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5004"]/@changeset""").is("5004"),
-              xpath("""/osm/relation[@id="5004"]/@user""").is("user_5004"),
-              xpath("""/osm/relation[@id="5004"]/@uid""").is("5004"),
-              xpath("""/osm/relation[@id="5004"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5004"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5004"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5004),
+              checks.osm.relation.attributes(5004, 7),
+              checks.osm.relation.visible(5004),
+              checks.osm.relation.version(5004,"1"),
+              checks.osm.relation.uid(5004,"5004"),
+              checks.osm.relation.user(5004,"5004"),
+              checks.osm.relation.changeset(5004,"5004"),
+              checks.osm.relation.children(5004,0)
+            ))
+        .exec(
+          http("self-referential")
+            .get("/relation/5005")
+            .check(
+              status.is(200),
+              checks.contentType,
+              checks.rootIsOsm,
+              checks.osm.relation.unique(5005),
+              checks.osm.relation.attributes(5005, 7),
+              checks.osm.relation.visible(5005),
+              checks.osm.relation.version(5005,"2"),
+              checks.osm.relation.uid(5005,"5005"),
+              checks.osm.relation.user(5005,"5005"),
+              checks.osm.relation.changeset(5005,"5005"),
+              checks.osm.relation.children(5005,1),
+              checks.osm.relation.member.t(5005,1,"relation"),
+              checks.osm.relation.member.ref(5005,1,"5005"),
+              checks.osm.relation.member.role(5005,1,"")
             ))
         .exec(
           http("roles")
             .get("/relation/5006")
             .check(
-              xpath("""/osm/relation[@id="5006"]/member[3]/@role""").is("c"),
-              xpath("""/osm/relation[@id="5006"]/member[3]/@ref""").is("5003"),
-              xpath("""/osm/relation[@id="5006"]/member[3]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5006"]/member[2]/@role""").is("b"),
-              xpath("""/osm/relation[@id="5006"]/member[2]/@ref""").is("5002"),
-              xpath("""/osm/relation[@id="5006"]/member[2]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5006"]/member[1]/@role""").is("a"),
-              xpath("""/osm/relation[@id="5006"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5006"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5006"]/*""").count.is(3),
-              xpath("""/osm/relation[@id="5006"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5006"]/@changeset""").is("5006"),
-              xpath("""/osm/relation[@id="5006"]/@user""").is("user_5006"),
-              xpath("""/osm/relation[@id="5006"]/@uid""").is("5006"),
-              xpath("""/osm/relation[@id="5006"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5006"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5006"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5006),
+              checks.osm.relation.attributes(5006, 7),
+              checks.osm.relation.visible(5006),
+              checks.osm.relation.version(5006,"1"),
+              checks.osm.relation.uid(5006,"5006"),
+              checks.osm.relation.user(5006,"5006"),
+              checks.osm.relation.changeset(5006,"5006"),
+              checks.osm.relation.children(5006,3),
+              checks.osm.relation.member.t(5006,1,"node"),
+              checks.osm.relation.member.ref(5006,1,"5001"),
+              checks.osm.relation.member.role(5006,1,"a"),
+              checks.osm.relation.member.t(5006,2,"node"),
+              checks.osm.relation.member.ref(5006,2,"5002"),
+              checks.osm.relation.member.role(5006,2,"b"),
+              checks.osm.relation.member.t(5006,3,"node"),
+              checks.osm.relation.member.ref(5006,3,"5003"),
+              checks.osm.relation.member.role(5006,3,"c")
             ))
         .exec(
           http("roles alternate")
             .get("/relation/5007")
             .check(
-              xpath("""/osm/relation[@id="5007"]/member[3]/@role""").is("c"),
-              xpath("""/osm/relation[@id="5007"]/member[3]/@ref""").is("5003"),
-              xpath("""/osm/relation[@id="5007"]/member[3]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5007"]/member[2]/@role""").is("a"),
-              xpath("""/osm/relation[@id="5007"]/member[2]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5007"]/member[2]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5007"]/member[1]/@role""").is("b"),
-              xpath("""/osm/relation[@id="5007"]/member[1]/@ref""").is("5002"),
-              xpath("""/osm/relation[@id="5007"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5007"]/*""").count.is(3),
-              xpath("""/osm/relation[@id="5007"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5007"]/@changeset""").is("5007"),
-              xpath("""/osm/relation[@id="5007"]/@user""").is("user_5007"),
-              xpath("""/osm/relation[@id="5007"]/@uid""").is("5007"),
-              xpath("""/osm/relation[@id="5007"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5007"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5007"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5007),
+              checks.osm.relation.attributes(5007, 7),
+              checks.osm.relation.visible(5007),
+              checks.osm.relation.version(5007,"1"),
+              checks.osm.relation.uid(5007,"5007"),
+              checks.osm.relation.user(5007,"5007"),
+              checks.osm.relation.changeset(5007,"5007"),
+              checks.osm.relation.children(5007,3),
+              checks.osm.relation.member.t(5007,1,"node"),
+              checks.osm.relation.member.ref(5007,1,"5002"),
+              checks.osm.relation.member.role(5007,1,"b"),
+              checks.osm.relation.member.t(5007,2,"node"),
+              checks.osm.relation.member.ref(5007,2,"5001"),
+              checks.osm.relation.member.role(5007,2,"a"),
+              checks.osm.relation.member.t(5007,3,"node"),
+              checks.osm.relation.member.ref(5007,3,"5003"),
+              checks.osm.relation.member.role(5007,3,"c")
             ))
         .exec(
           http("anonymous")
             .get("/relation/5008")
             .check(
-              xpath("""/osm/relation[@id="5008"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5008"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5008"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="5008"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5008"]/@changeset""").is("5008"),
-              xpath("""/osm/relation[@id="5008"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5008"]/@*""").count.is(5),
-              xpath("""/osm/relation[@id="5008"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5008),
+              checks.osm.relation.attributes(5008, 5),
+              checks.osm.relation.visible(5008),
+              checks.osm.relation.version(5008,"1"),
+              checks.osm.relation.changeset(5008,"5008"),
+              checks.osm.relation.children(5008,1),
+              checks.osm.relation.member.t(5008,1,"node"),
+              checks.osm.relation.member.ref(5008,1,"5001"),
+              checks.osm.relation.member.role(5008,1,"")
             ))
         .exec(
           http("tagged")
             .get("/relation/5009")
             .check(
-              xpath("""/osm/relation[@id="5009"]/tag[@k="a"]/@v""").is("1"),
-              xpath("""/osm/relation[@id="5009"]/member[1]/@ref""").is("5001"),
-              xpath("""/osm/relation[@id="5009"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="5009"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="5009"]/*""").count.is(2),
-              xpath("""/osm/relation[@id="5009"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="5009"]/@changeset""").is("5009"),
-              xpath("""/osm/relation[@id="5009"]/@user""").is("user_5009"),
-              xpath("""/osm/relation[@id="5009"]/@uid""").is("5009"),
-              xpath("""/osm/relation[@id="5009"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="5009"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="5009"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(5009),
+              checks.osm.relation.attributes(5009, 7),
+              checks.osm.relation.visible(5009),
+              checks.osm.relation.version(5009,"1"),
+              checks.osm.relation.uid(5009,"5009"),
+              checks.osm.relation.user(5009,"5009"),
+              checks.osm.relation.changeset(5009,"5009"),
+              checks.osm.relation.children(5009,2),
+              checks.osm.relation.tag(5009,"a","1"),
+              checks.osm.relation.member.t(5009,1,"node"),
+              checks.osm.relation.member.ref(5009,1,"5001"),
+              checks.osm.relation.member.role(5009,1,"")
             ))
       }
     }
@@ -285,80 +314,84 @@ object RelationScenarios {
           http("recreated")
             .get("/relation/6002")
             .check(
-              xpath("""/osm/relation[@id="6002"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="6002"]/member[1]/@ref""").is("6002"),
-              xpath("""/osm/relation[@id="6002"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="6002"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="6002"]/@version""").is("3"),
-              xpath("""/osm/relation[@id="6002"]/@changeset""").is("6202"),
-              xpath("""/osm/relation[@id="6002"]/@user""").is("user_6202"),
-              xpath("""/osm/relation[@id="6002"]/@uid""").is("6202"),
-              xpath("""/osm/relation[@id="6002"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="6002"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="6002"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(6002),
+              checks.osm.relation.attributes(6002, 7),
+              checks.osm.relation.visible(6002),
+              checks.osm.relation.version(6002,"3"),
+              checks.osm.relation.uid(6002,"6202"),
+              checks.osm.relation.user(6002,"6202"),
+              checks.osm.relation.changeset(6002,"6202"),
+              checks.osm.relation.children(6002,1),
+              checks.osm.relation.member.t(6002,1,"node"),
+              checks.osm.relation.member.ref(6002,1,"6002"),
+              checks.osm.relation.member.role(6002,1,"")
             ))
         .exec(
           http("recreated as untagged")
             .get("/relation/6004")
             .check(
               status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              xpath("""/osm/relation[@id="6004"]""").count.is(1),
-              xpath("""/osm/relation[@id="6004"]/@version""").is("3"),
-              xpath("""/osm/relation[@id="6004"]/@changeset""").is("6204"),
-              xpath("""/osm/relation[@id="6004"]/@user""").is("user_6204"),
-              xpath("""/osm/relation[@id="6004"]/@uid""").is("6204"),
-              xpath("""/osm/relation[@id="6004"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="6004"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="6004"]/*""").count.is(1),
-              xpath("""/osm/relation[@id="6004"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="6004"]/member[1]/@ref""").is("6002"),
-              xpath("""/osm/relation[@id="6004"]/member[1]/@type""").is("node")
+              checks.osm.relation.unique(6004),
+              checks.osm.relation.attributes(6004, 7),
+              checks.osm.relation.visible(6004),
+              checks.osm.relation.version(6004,"3"),
+              checks.osm.relation.uid(6004,"6204"),
+              checks.osm.relation.user(6004,"6204"),
+              checks.osm.relation.changeset(6004,"6204"),
+              checks.osm.relation.children(6004,1),
+              checks.osm.relation.member.t(6004,1,"node"),
+              checks.osm.relation.member.ref(6004,1,"6002"),
+              checks.osm.relation.member.role(6004,1,"")
             ))
         .exec(
           http("diff created")
             .get("/relation/6005")
             .check(
-              xpath("""/osm/relation[@id="6005"]/member[2]/@role""").is(""),
-              xpath("""/osm/relation[@id="6005"]/member[2]/@ref""").is("6002"),
-              xpath("""/osm/relation[@id="6005"]/member[2]/@type""").is("node"),
-              xpath("""/osm/relation[@id="6005"]/member[1]/@role""").is(""),
-              xpath("""/osm/relation[@id="6005"]/member[1]/@ref""").is("6001"),
-              xpath("""/osm/relation[@id="6005"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="6005"]/*""").count.is(2),
-              xpath("""/osm/relation[@id="6005"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="6005"]/@changeset""").is("6205"),
-              xpath("""/osm/relation[@id="6005"]/@user""").is("user_6205"),
-              xpath("""/osm/relation[@id="6005"]/@uid""").is("6205"),
-              xpath("""/osm/relation[@id="6005"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="6005"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="6005"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(6005),
+              checks.osm.relation.attributes(6005, 7),
+              checks.osm.relation.visible(6005),
+              checks.osm.relation.version(6005,"1"),
+              checks.osm.relation.uid(6005,"6205"),
+              checks.osm.relation.user(6005,"6205"),
+              checks.osm.relation.changeset(6005,"6205"),
+              checks.osm.relation.children(6005,2),
+              checks.osm.relation.member.t(6005,1,"node"),
+              checks.osm.relation.member.ref(6005,1,"6001"),
+              checks.osm.relation.member.role(6005,1,""),
+              checks.osm.relation.member.t(6005,2,"node"),
+              checks.osm.relation.member.ref(6005,2,"6002"),
+              checks.osm.relation.member.role(6005,2,"")
             ))
         .exec(
           http("diff created")
             .get("/relation/6006")
             .check(
-              xpath("""/osm/relation[@id="6006"]/tag[@k="b"]/@v""").is("2"),
-              xpath("""/osm/relation[@id="6006"]/member[2]/@role""").is("brr"),
-              xpath("""/osm/relation[@id="6006"]/member[2]/@ref""").is("6002"),
-              xpath("""/osm/relation[@id="6006"]/member[2]/@type""").is("node"),
-              xpath("""/osm/relation[@id="6006"]/member[1]/@role""").is("baz"),
-              xpath("""/osm/relation[@id="6006"]/member[1]/@ref""").is("6001"),
-              xpath("""/osm/relation[@id="6006"]/member[1]/@type""").is("node"),
-              xpath("""/osm/relation[@id="6006"]/*""").count.is(3),
-              xpath("""/osm/relation[@id="6006"]/@version""").is("1"),
-              xpath("""/osm/relation[@id="6006"]/@changeset""").is("6206"),
-              xpath("""/osm/relation[@id="6006"]/@user""").is("user_6206"),
-              xpath("""/osm/relation[@id="6006"]/@uid""").is("6206"),
-              xpath("""/osm/relation[@id="6006"]/@visible""").is("true"),
-              xpath("""/osm/relation[@id="6006"]/@*""").count.is(7),
-              xpath("""/osm/relation[@id="6006"]""").count.is(1),
+              status.is(200),
+              checks.contentType,
               checks.rootIsOsm,
-              status.is(200)
+              checks.osm.relation.unique(6006),
+              checks.osm.relation.attributes(6006, 7),
+              checks.osm.relation.visible(6006),
+              checks.osm.relation.version(6006,"1"),
+              checks.osm.relation.uid(6006,"6206"),
+              checks.osm.relation.user(6006,"6206"),
+              checks.osm.relation.changeset(6006,"6206"),
+              checks.osm.relation.children(6006,3),
+              checks.osm.relation.tag(6006,"b","2"),
+              checks.osm.relation.member.t(6006,1,"node"),
+              checks.osm.relation.member.ref(6006,1,"6001"),
+              checks.osm.relation.member.role(6006,1,"baz"),
+              checks.osm.relation.member.t(6006,2,"node"),
+              checks.osm.relation.member.ref(6006,2,"6002"),
+              checks.osm.relation.member.role(6006,2,"brr")
             ))
       }
     }
