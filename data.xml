@@ -26,6 +26,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 1.3,1,1.4,1.1   Ways diff processing (id 4000-4999)
 1.4,1,1.5,1.1   Relations (id 5000-5999)
 1.5,1,1.6,1.1   Ways diff processing (id 6000-6999)
+1.6,1,1.7,1.1   Ways full (id 7000-7999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -215,4 +216,40 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
     <member type="node" ref="6002" role="bar"/>
     <tag k="a" v="1"/>
   </relation>
+  <!-- Way full -->
+  <!-- Untagged and tagged nodes -->
+  <node id="7001" version="1" changeset="7001" lat="1.001" lon="1.601" user="user_7001" uid="7001" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="7002" version="1" changeset="7002" lat="1.001" lon="1.602" user="user_7002" uid="7002" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="7003" version="1" changeset="7003" lat="1.001" lon="1.603" user="user_7003" uid="7003" timestamp="2012-10-01T00:00:00Z">
+    <tag k="a" v="1"/>
+  </node>
+  <!-- Untagged way, untagged node children -->
+  <way id="7001" version="1" changeset="7001" user="user_7001" uid="7001" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="7001"/>
+    <nd ref="7002"/>
+  </way>
+  <!-- Untagged way, tagged node children -->
+  <way id="7002" version="1" changeset="7002" user="user_7002" uid="7002" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="7002"/>
+    <nd ref="7003"/>
+  </way>
+  <!-- Tagged way, untagged node children -->
+  <way id="7003" version="1" changeset="7003" user="user_7003" uid="7003" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="7001"/>
+    <nd ref="7002"/>
+    <tag k="x" v="0"/>
+  </way>
+  <!-- Tagged way, tagged node children -->
+  <way id="7004" version="1" changeset="7004" user="user_7004" uid="7004" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="7002"/>
+    <nd ref="7003"/>
+    <tag k="x" v="0"/>
+  </way>
+  <!-- Way with repeating node -->
+  <way id="7005" version="1" changeset="7005" user="user_7005" uid="7005" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="7001"/>
+    <nd ref="7002"/>
+    <nd ref="7001"/>
+  </way>
+  <!-- Way full diff processing -->
 </osm>

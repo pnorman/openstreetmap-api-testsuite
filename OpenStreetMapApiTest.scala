@@ -39,7 +39,9 @@ class ApiSimulation extends Simulation {
     RelationScenarios.relationScn.inject(nothingFor(2000 milliseconds), atOnce(1 users)),
     RelationScenarios.relationDiffScn.inject(nothingFor(2250 milliseconds), atOnce(1 users)),
     RelationsScenarios.relationsScn.inject(nothingFor(2500 milliseconds), atOnce(1 users)),
-    RelationsScenarios.relationsDiffScn.inject(nothingFor(2750 milliseconds), atOnce(1 users))
+    RelationsScenarios.relationsDiffScn.inject(nothingFor(2750 milliseconds), atOnce(1 users)),
+    WayFullScenarios.wayFullScn.inject(nothingFor(3000 milliseconds), atOnce(1 users)),
+    WayFullScenarios.wayFullDiffScn.inject(nothingFor(3250 milliseconds), atOnce(1 users))
   )
   .protocols(httpProtocol)
   .assertions(global.failedRequests.count.is(0))
