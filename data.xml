@@ -27,6 +27,7 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
 1.4,1,1.5,1.1   Relations (id 5000-5999)
 1.5,1,1.6,1.1   Ways diff processing (id 6000-6999)
 1.6,1,1.7,1.1   Ways full (id 7000-7999)
+1.7,1,1.8,1.1   Relations full (id 8000-8999)
   -->
   <!-- Nodes -->
   <!-- Basic node -->
@@ -251,5 +252,33 @@ bbox formats are in left,bottom,top,right or minlon,minlat,maxlon,maxlat
     <nd ref="7002"/>
     <nd ref="7001"/>
   </way>
-  <!-- Way full diff processing -->
+  <!-- Relation full -->
+  <node id="8001" version="1" changeset="8001" lat="1.001" lon="1.701" user="user_8001" uid="8001" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="8002" version="1" changeset="8002" lat="1.001" lon="1.702" user="user_8002" uid="8002" timestamp="2012-10-01T00:00:00Z"/>
+  <node id="8003" version="1" changeset="8003" lat="1.001" lon="1.703" user="user_8003" uid="8003" timestamp="2012-10-01T00:00:00Z"/>
+  <way id="8001" version="1" changeset="8001" user="user_8001" uid="8001" timestamp="2012-10-01T00:00:00Z">
+    <nd ref="8002"/>
+    <nd ref="8003"/>
+  </way>
+  <!-- Relation with node child -->
+  <relation id="8001" version="1" changeset="8001" user="user_8001" uid="8001" timestamp="2012-10-01T00:00:00Z">
+    <member type="node" ref="8001" role=""/>
+  </relation>
+  <!-- Relation with way child -->
+  <relation id="8002" version="1" changeset="8002" user="user_8002" uid="8002" timestamp="2012-10-01T00:00:00Z">
+    <member type="way" ref="8001" role=""/>
+  </relation>
+  <!-- Relation with relation child -->
+  <relation id="8003" version="1" changeset="8003" user="user_8003" uid="8003" timestamp="2012-10-01T00:00:00Z">
+    <member type="relation" ref="8001" role=""/>
+  </relation>
+  <!-- Relation with children that should not recurse to ways or nodes -->
+  <relation id="8004" version="1" changeset="8004" user="user_8004" uid="8004" timestamp="2012-10-01T00:00:00Z">
+    <member type="relation" ref="8001" role=""/>
+    <member type="relation" ref="8002" role=""/>
+  </relation>
+  <!-- Self-referential relation -->
+  <relation id="8005" version="2" changeset="8005" user="user_8005" uid="8005" timestamp="2012-10-01T00:00:00Z">
+    <member type="relation" ref="8005" role=""/>
+  </relation>
 </osm>
