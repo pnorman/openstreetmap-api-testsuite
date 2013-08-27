@@ -29,7 +29,7 @@ There are two parts to the test suite, an OSM XML file to be loaded into the API
 
 2. Apply diff.xml to the database
 
-    An example of the first two steps for an apidb database loaded with osmosis would be
+    The first two steps will vary depending on API you are using, but an example for an apidb database loaded with osmosis would be
 
     ```bash
     osmosis --td database=api_test user=osm password=osm validateSchemaVersion=no && \
