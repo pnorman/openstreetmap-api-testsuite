@@ -44,3 +44,7 @@ There are two parts to the test suite, an OSM XML file to be loaded into the API
 5. Run Gatling with $GATLING_HOME/bin/gatling.sh and select the osmapi.ApiSimulation simulation
 
 6. If there are failed tests you can get details of the failures either by scrolling up or in the file `simulation.log` the directory listed. A command like ``grep "REQUEST.*KO" $GATLING_HOME/results/apisimulation-20130826235031/simulation.log`` will find the failed results.
+
+## Test Coverage ##
+
+This software covers the /[node|way|relation]/id# single-element fetch, /(nodes|ways|relations) multi-element fetch, and /[way|relation]/id#/full call. Only GET and HEAD are tested. Each call is in its own .scala file (e.g. Node.scala for /node/id# and Nodes.scala for /nodes)
