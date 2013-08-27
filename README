@@ -17,11 +17,11 @@ There are two parts to the test suite, an OSM XML file to be loaded into the API
 
 1. Download [Gatling](http://gatling-tool.org/), version 2.0.0-M3a or greater and unzip it to a folder of your choice. See the [gatling install instructions](https://github.com/excilys/gatling/wiki/Getting-Started#wiki-install) for more information.
 
-In the ``user-files/simulations/`` directory under where you unziped it, clone the git repo with
+2. In the ``user-files/simulations/`` directory under where you unziped it, clone the git repo with
 
-```
-git clone https://github.com/pnorman/openstreetmap-api-testsuite
-```
+    ```
+    git clone https://github.com/pnorman/openstreetmap-api-testsuite
+    ```
 
 ## Usage ##
 
@@ -29,11 +29,13 @@ git clone https://github.com/pnorman/openstreetmap-api-testsuite
 
 2. Apply diff.xml to the database
 
-An example of the first two steps for an apidb database loaded with osmosis would be
+    An example of the first two steps for an apidb database loaded with osmosis would be
 
+	```
     osmosis --td database=api_test user=osm password=osm validateSchemaVersion=no && \
     osmosis --rx data.xml --wd database=api_test user=osm password=osm validateSchemaVersion=no && \
     osmosis --rxc diff.xml --wdc database=api_test user=osm password=osm validateSchemaVersion=no
+	```
 
 3. Edit the base URL in the OpenStreetMapApiTest.scala file. The default is localhost on port 3000, suitable for use with the the rails port and ``bundle exec rails server``. Make sure the server is actually running.
 
