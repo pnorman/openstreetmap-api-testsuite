@@ -13,24 +13,32 @@ There are two parts to the test suite, an OSM XML file to be loaded into the API
 
 * The API you want to test, as well as whatever it requires to load the data.
 
-## Usage ##
+## Installation ##
 
-In ``gatling-charts-highcharts-2.0.0-M3a/user-files/simulations/`` clone the git repo with
+1. Download [Gatling](http://gatling-tool.org/), version 2.0.0-M3a or greater and unzip it to a folder of your choice. See the [gatling install instructions](https://github.com/excilys/gatling/wiki/Getting-Started#wiki-install) for more information.
+
+In the ``user-files/simulations/`` directory under where you unziped it, clone the git repo with
 
 ```
 git clone https://github.com/pnorman/openstreetmap-api-testsuite
 ```
 
+## Usage ##
+
 1. Load data.xml into the database + API of your choice
 
 2. Apply diff.xml to the database
 
-3. Edit the base URL in the OpenStreetMapApiTest.scala file.
-
-4. Run gatling
-
-An example of loading for an apidb database loaded with osmosis would be
+An example of the first two steps for an apidb database loaded with osmosis would be
 
     osmosis --td database=api_test user=osm password=osm validateSchemaVersion=no && \
     osmosis --rx data.xml --wd database=api_test user=osm password=osm validateSchemaVersion=no && \
     osmosis --rxc diff.xml --wdc database=api_test user=osm password=osm validateSchemaVersion=no
+
+3. Edit the base URL in the OpenStreetMapApiTest.scala file. The default is localhost on port 3000, suitable for use with the the rails port and ``bundle exec rails server``. Make sure the server is actually running.
+
+4. Set ``$GATLING_HOME`` to the directory that was created when you unzipped gatling earlier. If you're currently in the openstreetmap-api-testsuite directory you could do this with ``GATLING_HOME="${PWD%*/*/*/*}"``
+
+5. Run Gatling with $GATLING_HOME/bin/gatling.sh and select the osmapi.ApiSimulation simulation
+
+6. If there are failed tests you can get details of the failures either by scrolling up or in the file `simulation.log` the directory listed. A command like ``grep "REQUEST.*KO" $GATLING_HOME/results/apisimulation-20130826235031/simulation.log`` will find the failed results.
